@@ -1,0 +1,147 @@
+
+<!-- # Shiny_qraLm <img src="www/img/logo_small.png" width="10%"> -->
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Getting Started](#getting-started)
+- [Architecture Overview](#architecture-overview)
+- [FAQ](#faq)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+
+# Overview
+
+`Shiny_qraLm` is a **Shiny web application** designed for the
+**quantitative risk assessment** of *Listeria monocytogenes* in various
+food categories.  
+The tool supports risk modeling for: - **Frozen Vegetables** -
+**Cold-Smoked Fish** - **RTE Cantaloupe**
+
+The application is built using the
+[`qraLm`](https://worldhealthorganization.github.io/qraLm/) R package
+and was developed under the scope of the [Joint FAO/WHO Expert Meeting
+on Microbiological Risk
+Assessment](https://www.who.int/publications/m/item/jemra-of-listeria-monocytogenes-in-foods).
+
+📄 **Reference Document:** [FAO/WHO Summary
+Report](https://www.fao.org/3/cc6993en/cc6993en.pdf)  
+🔗 **GitHub Repository:**
+[Shiny_qraLm](https://github.com/WorldHealthOrganization/Shiny_qraLm)
+
+## 📌 Key Features
+
+✅ **Interactive Modeling** – Run risk assessment models in real-time  
+✅ **Modular Architecture** – Scalable and extensible codebase  
+✅ **Data Visualization** – Advanced `ggplot2` and `plotly` charts  
+✅ **Live Updates** – Dynamic risk level calculations  
+✅ **Downloadable Reports** – Export results in various formats
+
+## 🚀 Getting Started
+
+### 📥 Installation
+
+Before running the application, ensure you have R and the required
+packages installed.
+
+``` r
+# Install required packages
+required_packages <- c("shiny", "dplyr", "ggplot2", "plotly", "shinyjs", "DT", "shinyWidgets")
+
+new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+if(length(new_packages)) install.packages(new_packages)
+
+lapply(required_packages, require, character.only = TRUE)
+```
+
+### ▶️ Running the App
+
+Once dependencies are installed, start the application:
+
+``` r
+library(shiny)
+setwd("path/to/Shiny_qraLm")  # Set your working directory
+shiny::runApp("app.R")  # Run the app
+```
+
+# 📂 Architecture Overview
+
+The application follows a modular architecture, making it easy to
+manage, extend, and customize.
+
+``` bash
+Shiny_qraLm/
+├── app.R                 # Main application entry point
+├── data/                 # Datasets for risk assessment
+│   ├── data.R            # Data processing scripts
+│   └── sysdata.rda       # Preprocessed datasets
+│   ├── barplotModule.R
+│   ├── boxplotModule.R
+│   ├── riskStatsModule.R
+│   ├── utility_functions.R
+│   └── ...
+├── pages/                # Individual app pages
+│   ├── about.R           # About section UI
+│   ├── frozenvegetables/ # Frozen Vegetables model UI
+│   ├── rtecantaloupe/    # RTE Cantaloupe model UI
+│   ├── smokedfish/       # Smoked Fish model UI
+│   └── ...
+├── www/                  # Static files (CSS, images, JS)
+│   ├── custom.css        # Custom styling
+│   ├── img/              # Images directory
+│   │   ├── logo.svg
+│   │   ├── favicon.ico
+│   │   └── ...
+├── LICENSE               # License information
+├── README.Rmd            # README file (this file)
+├── Shiny_qraLm.Rproj      # RStudio project file
+└── DESCRIPTION           # Package metadata
+```
+
+## 📌 Key Components
+
+- **`app.R`**: Main entry point that initializes the UI and server
+  logic.
+- **`data/`**: Contains datasets for risk assessments.
+- **`modules/`**: Stores reusable Shiny UI components for modular
+  development.
+- **`pages/`**: Organizes the UI and server logic for each section of
+  the app.
+- **`www/`**: Holds static assets like CSS, JavaScript, and images.
+
+## ❓ FAQ
+
+### ❓ How do I run the app locally?
+
+Clone the repository:
+
+``` sh
+git clone https://github.com/WorldHealthOrganization/Shiny_qraLm.git
+```
+
+Install required packages in R (see Installation section above). Start
+the app:
+
+``` r
+shiny::runApp("app.R")
+```
+
+Open your browser and go to `http://localhost:8000/`.
+
+### ❓ What kind of models are available?
+
+- Frozen Vegetables
+- Cold-Smoked Fish
+- RTE Cantaloupe
+
+## 📜 License
+
+This project is licensed under the MIT License. See the `LICENSE.md`
+file for full details.
+
+## 🙌 Acknowledgments
+
+Special thanks to the FAO/WHO Expert Group for their valuable
+contributions to this project.
