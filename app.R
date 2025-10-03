@@ -1,7 +1,7 @@
 
 # Lines needed for deployment
-# remotes::install_github("https://github.com/worldhealthorganization/doseresponsemodels/", force = TRUE)
-# remotes::install_github("https://github.com/worldhealthorganization/qraLm", force = TRUE)
+#remotes::install_github("https://github.com/worldhealthorganization/doseresponsemodels/", force = TRUE)
+#remotes::install_github("https://github.com/worldhealthorganization/qraLm", force = TRUE)
 rm(list = ls())
 gc()
 
