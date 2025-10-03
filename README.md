@@ -16,7 +16,11 @@
 
 `Shiny_qraLm` is a **Shiny web application** designed for the
 **quantitative risk assessment** of *Listeria monocytogenes* in various
-food categories.  
+food categories.
+
+The application is available:
+<https://worldhealthorg.shinyapps.io/Shiny_qraLm/>
+
 The tool supports risk modeling for: - **Frozen Vegetables** -
 **Cold-Smoked Fish** - **RTE Cantaloupe**
 
@@ -31,7 +35,7 @@ Report](https://www.fao.org/3/cc6993en/cc6993en.pdf)
 🔗 **GitHub Repository:**
 [Shiny_qraLm](https://github.com/WorldHealthOrganization/Shiny_qraLm)
 
-## 📌 Key Features
+## Key Features
 
 ✅ **Interactive Modeling** – Run risk assessment models in real-time  
 ✅ **Modular Architecture** – Scalable and extensible codebase  
@@ -39,7 +43,7 @@ Report](https://www.fao.org/3/cc6993en/cc6993en.pdf)
 ✅ **Live Updates** – Dynamic risk level calculations  
 ✅ **Downloadable Reports** – Export results in various formats
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 📥 Installation
 
@@ -56,7 +60,7 @@ if(length(new_packages)) install.packages(new_packages)
 lapply(required_packages, require, character.only = TRUE)
 ```
 
-### ▶️ Running the App
+### ▶Running the App
 
 Once dependencies are installed, start the application:
 
@@ -66,7 +70,7 @@ setwd("path/to/Shiny_qraLm")  # Set your working directory
 shiny::runApp("app.R")  # Run the app
 ```
 
-# 📂 Architecture Overview
+# Architecture Overview
 
 The application follows a modular architecture, making it easy to
 manage, extend, and customize.
@@ -100,7 +104,7 @@ Shiny_qraLm/
 └── DESCRIPTION           # Package metadata
 ```
 
-## 📌 Key Components
+## Key Components
 
 - **`app.R`**: Main entry point that initializes the UI and server
   logic.
@@ -111,7 +115,7 @@ Shiny_qraLm/
   the app.
 - **`www/`**: Holds static assets like CSS, JavaScript, and images.
 
-## ❓ FAQ
+## FAQ
 
 ### ❓ How do I run the app locally?
 
@@ -132,16 +136,16 @@ Open your browser and go to `http://localhost:8000/`.
 
 ### ❓ What kind of models are available?
 
-- Frozen Vegetables
-- Cold-Smoked Fish
-- RTE Cantaloupe
+- [Frozen Vegetables](https://doi.org/10.3390/foods13223610)
+- [Cold-Smoked Fish](https://doi.org/10.3390/foods13233831)
+- [RTE Cantaloupe](https://doi.org/10.3390/foods14132212)
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License. See the `LICENSE.md`
 file for full details.
 
-## 🙌 Acknowledgments
+## Acknowledgments
 
 Special thanks to the FAO/WHO Expert Group for their valuable
 contributions to this project.
