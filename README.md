@@ -37,15 +37,15 @@ Report](https://www.fao.org/3/cc6993en/cc6993en.pdf)
 
 ## Key Features
 
-✅ **Interactive Modeling** – Run risk assessment models in real-time  
-✅ **Modular Architecture** – Scalable and extensible codebase  
-✅ **Data Visualization** – Advanced `ggplot2` and `plotly` charts  
-✅ **Live Updates** – Dynamic risk level calculations  
-✅ **Downloadable Reports** – Export results in various formats
+**Interactive Modeling** – Run risk assessment models in real-time  
+**Modular Architecture** – Scalable and extensible codebase  
+**Data Visualization** – Advanced `ggplot2` and `plotly` charts  
+**Live Updates** – Dynamic risk level calculations  
+**Downloadable Reports** – Export results in various formats
 
 ## Getting Started
 
-### 📥 Installation
+### Installation
 
 Before running the application, ensure you have R and the required
 packages installed.
@@ -60,7 +60,7 @@ if(length(new_packages)) install.packages(new_packages)
 lapply(required_packages, require, character.only = TRUE)
 ```
 
-### ▶Running the App
+### Running the App
 
 Once dependencies are installed, start the application:
 
@@ -117,7 +117,7 @@ Shiny_qraLm/
 
 ## FAQ
 
-### ❓ How do I run the app locally?
+### How do I run the app locally?
 
 Clone the repository:
 
@@ -134,7 +134,7 @@ shiny::runApp("app.R")
 
 Open your browser and go to `http://localhost:8000/`.
 
-### ❓ What kind of models are available?
+### What kind of models are available?
 
 - [Frozen Vegetables](https://doi.org/10.3390/foods13223610)
 - [Cold-Smoked Fish](https://doi.org/10.3390/foods13233831)
