@@ -43,7 +43,7 @@ The application is built using the [`qraLm`](https://worldhealthorganization.git
 
 ## Getting Started
 
-### 📥 Installation
+### Installation
 
 Before running the application, ensure you have R and the required packages installed.
 
@@ -57,7 +57,7 @@ if(length(new_packages)) install.packages(new_packages)
 lapply(required_packages, require, character.only = TRUE)
 ```
 
-### ▶Running the App
+### Running the App
 
 Once dependencies are installed, start the application:
 
