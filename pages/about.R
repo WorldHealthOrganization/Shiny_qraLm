@@ -137,7 +137,7 @@ aboutProjectContent <- function() {
                 p(class = "spaced-paragraph",  
                   "The application is built using the ",
                   a(href = "https://worldhealthorganization.github.io/qraLm/",
-                    "qraLm",
+                    code("qraLm"),
                     target = "_blank"),
                   "R package and was developed under the scope of the ",
                   a(href = "https://www.who.int/publications/m/item/jemra-of-listeria-monocytogenes-in-foods",
@@ -147,7 +147,9 @@ aboutProjectContent <- function() {
                   a(href = "https://github.com/WorldHealthOrganization/qraLm/",
                     "Function reference manual",
                     target = "_blank"),
-                  "for the qraLm package."
+                  "for the ",
+                  code("qraLm"),
+                  " package."
                 ),
                 
                 p(class = "spaced-paragraph",  

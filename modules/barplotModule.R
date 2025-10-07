@@ -27,7 +27,6 @@ barplotServer <- function(id, data, Stage) {
         theme_minimal() +
         xlab("") + 
         ylab("Prevalence") +
-        hrbrthemes::theme_ipsum() +
         theme(legend.position = "none")
       
       # Convert ggplot to interactive plotly
