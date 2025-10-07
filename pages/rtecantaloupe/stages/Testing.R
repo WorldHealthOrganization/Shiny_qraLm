@@ -112,7 +112,7 @@ ca_TestingInputs_ui <- function(id) {
                 value = 0.1, min = 0, max = 1, step=0.1),
     sliderInput(ns("se"),
                 label = makeHelp("Sensibility of the test or probability to detect (<i>Se</i>)", "caTesting"),
-                value = 0.1, min = 0, max = 1, step=0.050),
+                value = 1, min = 0, max = 1, step=0.050),
     sliderInput(ns("g_tested_enum"),
                 label = makeHelp("Sample weight tested for enumeration (<i>gTestedEnum</i>)", "caTesting"),
                 value = 10, min = 5, max = 20, step=5)
