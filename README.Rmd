@@ -33,11 +33,11 @@ The application is built using the [`qraLm`](https://worldhealthorganization.git
 
 ## Key Features
 
-✅ **Interactive Modeling** – Run risk assessment models in real-time  
-✅ **Modular Architecture** – Scalable and extensible codebase  
-✅ **Data Visualization** – Advanced `ggplot2` and `plotly` charts  
-✅ **Live Updates** – Dynamic risk level calculations  
-✅ **Downloadable Reports** – Export results in various formats  
+**Interactive Modeling** – Run risk assessment models in real-time  
+**Modular Architecture** – Scalable and extensible codebase  
+**Data Visualization** – Advanced `ggplot2` and `plotly` charts  
+**Live Updates** – Dynamic risk level calculations  
+**Downloadable Reports** – Export results in various formats  
 
 
 
