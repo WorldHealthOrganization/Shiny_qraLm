@@ -163,7 +163,19 @@ aboutProjectContent <- function() {
                   strong("Acknowledgements")
                 ),
                 p(class = "spaced-paragraph",  
-                  "This product was commissioned by the Department of Nutrition and Food Safety of the World Health Organization. The models were developed by:",
+                  "This product was commissioned by the Department of Nutrition and Food Safety of the World Health Organization (WHO). Its development was carried out under the supervision and with the scientific and technical guidance of:",
+                  tags$ul(
+                    tags$li(
+                      "Moez Sanaa, Department of Nutrition and Food Safety, WHO, Geneva, Switzerland,"
+                    ),
+                    tags$li(
+                      "Juliana De Oliveira Mota, Department of Nutrition and Food Safety, WHO, Geneva, Switzerland, and"
+                    ),
+                    tags$li(
+                      "Akio Hasegawa, Department of Nutrition and Food Safety, WHO, Geneva, Switzerland."
+                    )
+                  ),
+                  "The models were developed by:",
                   tags$ul(
                     tags$li(
                       "Vasco Cadavez, Laboratório para a Sustentabilidade e Tecnologia em Regiões de Montanha, Campus de Santa Apolónia, Instituto Politécnico de Bragança, 5300-253 Bragança, Portugal,"
@@ -173,7 +185,7 @@ aboutProjectContent <- function() {
                     ),
                     tags$li("Laurent Guillier, Risk Assessment Department, French Agency for Food, Environmental and Occupational Health & Safety (Anses), 14 rue Pierre et Marie Curie, 94701 Maisons-Alfort, France, and"
                     ),
-                    tags$li("Ursula Gonzalez Barron, Laboratório para a Sustentabilidade e Tecnologia em Regiões de Montanha, Campus de Santa Apolónia, Instituto Politécnico de Bragança, 5300-253 Bragança, Portugal"
+                    tags$li("Ursula Gonzalez Barron, Laboratório para a Sustentabilidade e Tecnologia em Regiões de Montanha, Campus de Santa Apolónia, Instituto Politécnico de Bragança, 5300-253 Bragança, Portugal."
                     )
                   )
                   ),

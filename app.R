@@ -165,8 +165,8 @@ server = function(input, output, session) {
   observe({
     showModal(modalDialog(
       title = HTML("<strong>Disclaimer</strong>"),
-      HTML("This &ldquo;WHO Risk Estimation Tool&rdquo; for <i>Listeria monocytogenes</i> in 
-           Foods runs in its own protected environment and access is SSL encrypted,
+      HTML("This &ldquo;WHO Risk Estimation Tool for <i>Listeria monocytogenes</i> in 
+           Foods&rdquo; runs in its own protected environment and access is SSL encrypted,
            and uploaded data are not saved once you close the session. However, 
            the data will be temporarily stored in the cloud hosting the application
            and thus, users are advised to ensure data is de-identifiable.<br>
