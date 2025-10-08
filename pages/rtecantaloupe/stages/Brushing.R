@@ -87,7 +87,7 @@ ca_BrushingInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("log_dec_brush"),
                 label = makeHelp("Mean log10 reduction attained by brushing (<i>logDecBrush</i>)", "caBrush"),
-                value = 0, min = 0, max = 10, step=1)
+                value = 0, min = 0, max = 3, step=1)
 #  )
   )
 }
