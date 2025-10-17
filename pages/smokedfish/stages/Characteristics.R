@@ -10,7 +10,7 @@ sf_Characteristics_ui <- function(id) {
     )
 }
 
-sf_Characteristics_server <- function(input, output, session, suffix, datPack) {
+sf_Characteristics_server <- function(input, output, session, suffix, datTest) {
 
   ns <- NS(suffix)
   id <- ns("Characteristics")
@@ -20,13 +20,25 @@ sf_Characteristics_server <- function(input, output, session, suffix, datPack) {
   
   # Define a reactive expression that updates and returns the data
   RTE <- eventReactive(input$updateSF, {
+    
+    is_valid <- checkPert(input, prefix, "NaCl_min_SF", "NaCl_mode_SF", "NaCl_max_SF")   &
+      checkPert(input, prefix, "P_min_SF", "P_mode_SF", "P_max_SF")   &
+      checkPert(input, prefix, "pH_min_SF", "pH_mode_SF", "pH_max_SF")   &
+      checkPert(input, prefix, "CO2equi_min_SF", "CO2equi_mode_SF", "CO2equi_max_SF")   &
+      checkPert(input, prefix, "daWph_min_SF", "daWph_mode_SF", "daWph_max_SF")   &
+      checkPert(input, prefix, "laWph_min_SF", "laWph_mode_SF", "laWph_max_SF")   
+    if (!is_valid) {
+      return(NULL)
+    }
+    
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
       on.exit(progress$close())
       progress$set(message = "Characteristics", value = 9/13)
 
-      values$data <- generate_RTE(input, prefix, datPack)
+      values$data <- generate_RTE(input, prefix, datTest)
       # Need a function in the following functions
       datFn <- function() values$data
       if (isTRUE(getOption("myVerbose"))) print("reevaluate stat RTE")
@@ -59,10 +71,11 @@ sf_Characteristics_server <- function(input, output, session, suffix, datPack) {
   
 }
 
-generate_RTE <- function(input, prefix, datPack) {
+generate_RTE <- function(input, prefix, datTest) {
   set.seed(get_input_value(input, prefix, "seed") + 12022004)
+  req(datTest())
     df <- sfCharacteristics(
-    nLots=datPack()$nLots,
+    nLots=datTest()$nLots,
     awminSF=NULL,
     awmodeSF=NULL,
     awmaxSF=NULL,
@@ -112,31 +125,31 @@ sf_CharacteristicsInputs_ui <- function(id) {
 # SF characteristics    
     sliderInput(ns("NaCl_min_SF"),     
                 label = makeHelp("Minimum NaCl concentration (%) (<i>NaClminSF</i>)", 'sfCharacteristics'),
-                value = 1.5, min = 0, max = 3, step=0.1),
+                value = 1.5, min = 0, max = 7.0, step=0.1),
     sliderInput(ns("NaCl_mode_SF"),     
                 label = makeHelp("Mode of NaCl concentration(%) (<i>NaClmodeSF</i>)", 'sfCharacteristics'),
-                value = 3.4, min = 2.0, max = 4.0, step=0.1),
+                value = 3.4, min = 0, max = 7.0, step=0.1),
     sliderInput(ns("NaCl_max_SF"),     
                 label = makeHelp("Maximum NaCl concentration (%) (<i>NaClmaxSF</i>)", 'sfCharacteristics'),
-                value = 5.3, min = 4.0, max = 7.0, step=0.1),
+                value = 5.3, min = 0, max = 7.0, step=0.1),
     sliderInput(ns("P_min_SF"),     
                 label = makeHelp("Minimum phenol concentration (ppm) (<i>PminSF</i>)", 'sfCharacteristics'),
-                value = 5, min = 0, max = 10, step=1),
+                value = 5, min = 0, max = 40, step=1),
     sliderInput(ns("P_mode_SF"),     
                 label = makeHelp("Mode of phenol concentration (ppm) (<i>PmodeSF</i>)", 'sfCharacteristics'),
-                value = 10, min = 5, max = 10, step=1),
+                value = 10, min = 0, max = 40, step=1),
     sliderInput(ns("P_max_SF"),     
                 label = makeHelp("Maximum phenol concentration (ppm) (<i>PmaxSF</i>)", 'sfCharacteristics'),
-                 value = 22, min = 10, max = 40, step=1),
+                 value = 22, min = 0, max = 40, step=1),
     sliderInput(ns("pH_min_SF"),     
                 label = makeHelp("Minimum pH (<i>pHminSF</i>)", 'sfCharacteristics'),
-                value = 5.8, min = 4.0, max = 6.0, step=0.1),
+                value = 5.8, min = 4.0, max = 7.0, step=0.1),
     sliderInput(ns("pH_mode_SF"),     
                 label = makeHelp("Mode of pH (<i>pHmodeSF</i>)", 'sfCharacteristics'),
-                value = 6.1, min = 4.5, max = 6.5, step=0.1),
+                value = 6.1, min = 4.0, max = 7.0, step=0.1),
     sliderInput(ns("pH_max_SF"),     
                 label = makeHelp("Maximum pH (<i>pHmaxSF</i>)", 'sfCharacteristics'),
-                value = 6.5, min = 5.0, max = 7.0, step=0.1),
+                value = 6.5, min = 4.0, max = 7.0, step=0.1),
     sliderInput(ns("CO2equi_min_SF"),     
                 label = makeHelp("Minimum CO2 equilibrium (%) (<i>CO2equiminSF</i>)", 'sfCharacteristics'),
                 value = 0.25, min = 0, max = 1.0, step=0.05),
@@ -148,19 +161,19 @@ sf_CharacteristicsInputs_ui <- function(id) {
                 value = 0.30, min = 0, max = 1.0, step=0.05),
     sliderInput(ns("daWph_min_SF"),     
                 label = makeHelp("Minimum diacetate concentration (ppm) (<i>daWphminSF</i>)", 'sfCharacteristics'),
-                value = 0, min = 0, max = 1500, step=100),
+                value = 0, min = 0, max = 3000, step=100),
     sliderInput(ns("daWph_mode_SF"),     
                 label = makeHelp("Mode of diacetate concentration (ppm) (<i>daWphmodeSF</i>)", 'sfCharacteristics'),
-                value = 0, min = 0, max = 2000, step=100),
+                value = 0, min = 0, max = 3000, step=100),
     sliderInput(ns("daWph_max_SF"),     
                 label = makeHelp("Maximum diacetate concentration (ppm) (<i>daWphmaxSF</i>)", 'sfCharacteristics'),
                 value = 0, min = 0, max = 3000, step=100),
     sliderInput(ns("laWph_min_SF"),     
                 label = makeHelp("Minimum lactic acid concentration (ppm) (<i>laWphminSF</i>)", 'sfCharacteristics'),
-                value = 0, min = 0, max = 10000, step=100),
+                value = 0, min = 0, max = 35000, step=100),
     sliderInput(ns("laWph_mode_SF"),     
                 label = makeHelp("Mode of lactic acid concentration (ppm) (<i>laWphmodeSF</i>)", 'sfCharacteristics'),
-                value = 0, min = 0, max = 20000, step=100),
+                value = 0, min = 0, max = 35000, step=100),
     sliderInput(ns("laWph_max_SF"),     
                 label = makeHelp("Maximum lactic acid concentration (ppm) (<i>laWphmaxSF</i>)", 'sfCharacteristics'),
                 value = 0, min = 0, max = 35000, step=100)

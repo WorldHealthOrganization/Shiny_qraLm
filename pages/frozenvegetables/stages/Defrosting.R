@@ -77,6 +77,7 @@ fv_Defrosting_server <- function(input, output, session, suffix, datPort) {
 generate_datDefrost <- function(input, prefix, datPort) {
   if (isTRUE(getOption("myVerbose"))) print("reevaluate datDefrost")
   set.seed(get_input_value(input, prefix, "seed") + 147)
+  req(datPort())
   df <- fvDefrost(
                   datPort(),
                   Temp     = get_input_value(input, prefix, "temp_defrost"),
@@ -97,16 +98,16 @@ fv_DefrostingInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("temp_defrost"), 
                 label = makeHelp("Defrosting temperature (ºC) (<i>Temp</i>)", 'fvDefrost'),
-                value=25, min=5, max=35, step=1),
+                value=8, min=5, max=35, step=1),
     sliderInput(ns("time_defrost"), 
                 label = makeHelp("Defrosting time (h) (<i>time</i>)", 'fvDefrost'),
-                value=2,  min=0, max=24, step=1.0),
+                value=2,  min=0, max=100, step=1.0),
     sliderInput(ns("mpd"), 
                 label = makeHelp("MPD of LM in blanched vegetables (<i>MPD</i>)", 'fvDefrost'),
                 value=8,  min=5, max=10, step=0.2),
     sliderInput(ns("p_defrost"), 
                 label = makeHelp("Probability of defrosting (<i>pDefrost</i>)", 'fvDefrost'),
-                value=0.20,  min=0, max=1, step=0.05) 
+                value=0.0,  min=0, max=1, step=0.05) 
    #)
 )
 }

@@ -15,3 +15,38 @@ makeHelp <- function(text, link){
               <i class="fa fa-info-circle" aria-hidden="true"></i>
               </a>'))
 }
+
+checkPert <- function(input, prefix, min, mode, max, type = 'pert'){
+  ### Watchout: launch with min, max, max for uniform
+  minVal <- get_input_value(input, prefix, min)    
+  modeVal <- get_input_value(input, prefix, mode)    
+  maxVal <- get_input_value(input, prefix, max) 
+
+  if(type == "uniform") {
+    mess <- HTML(paste("The minimum<i>", min, "</i>must be lower or equal to the maximum<i>", mode,"</i>"))
+  } else {
+    mess <-  HTML(paste("The minimum<i>", min, "</i>must be lower or equal to the mode<i>", mode,"</i>"))
+  }
+    
+  if(minVal > modeVal) {
+    showModal(modalDialog(
+      title = "Error in parameter specification",
+      mess,
+      easyClose = TRUE,
+      footer = modalButton("Close")
+    ))
+    return(FALSE)
+  }
+  
+  if(modeVal > maxVal) {
+    showModal(modalDialog(
+      title = "Error in parameter specification",
+      HTML(paste("The mode<i>",mode, "</i>must be lower or equal to the maximum<i>", max, "</i>")),
+      easyClose = TRUE,
+      footer = modalButton("Close")
+    ))
+    return(FALSE)
+  }
+  
+  return(TRUE)
+}

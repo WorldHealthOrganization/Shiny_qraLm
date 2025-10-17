@@ -73,6 +73,7 @@ ca_Storing_server <- function(input, output, session, suffix, datBrush) {
 
 generate_datStoring <- function(input, prefix, datBrush) {
   set.seed(get_input_value(input, prefix, "seed") + 98255)
+  req(datBrush())
   df <- caHoldingTime(
     datBrush(),
     pCooled  = get_input_value(input, prefix, "p_cooled"),
@@ -96,7 +97,7 @@ ca_StoringInputs_ui <- function(id) {
                 value = 0, min = 0, max = 1, step=0.1),
     sliderInput(ns("time_sto"),
                 label = makeHelp("Storage time of a lot of cantaloupes (h) (<i>time</i>)", "caHoldingTime"),
-                value = 6, min = 0, max = 10, step=1)
+                value = 6, min = 0, max = 240, step=1)
 #    )
  )
 }

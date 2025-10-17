@@ -18,6 +18,24 @@ sf_rteCharacteristics_server <- function(input, output, session, suffix, datPack
   
   # Define a reactive expression that updates and returns the data
   datRTE <- eventReactive(input$updateSF, {
+    
+    is_valid <- checkPert(input, prefix, "aw_min_SF", "aw_mode_SF", "aw_max_SF") &
+      checkPert(input, prefix, "NaCl_min_SF", "NaCl_mode_SF", "NaCl_max_SF")   &
+      checkPert(input, prefix, "P_min_SF", "P_mode_SF", "P_max_SF")   &
+      checkPert(input, prefix, "pH_min_SF", "pH_mode_SF", "pH_max_SF")   &
+      checkPert(input, prefix, "CO2equilibrium_min_SF", "CO2equilibrium_mode_SF", "CO2equilibrium_max_SF")   &
+      checkPert(input, prefix, "NIT_min_SF", "NIT_mode_SF", "NIT_max_SF")   &
+      checkPert(input, prefix, "aaWph_min_SF", "aaWph_mode_SF", "aaWph_max_SF")   &
+      checkPert(input, prefix, "baWph_min_SF", "baWph_mode_SF", "baWph_max_SF")   &
+      checkPert(input, prefix, "caWph_min_SF", "caWph_mode_SF", "caWph_max_SF")   &
+      checkPert(input, prefix, "daWph_min_SF", "daWph_mode_SF", "daWph_max_SF")   &
+      checkPert(input, prefix, "laWph_min_SF", "laWph_mode_SF", "laWph_max_SF")   &
+      checkPert(input, prefix, "saWph_min_SF", "saWph_mode_SF", "saWph_max_SF")  
+    if (!is_valid) {
+      return(NULL)
+    }
+    
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       values$data <- generate_datRTE(input, prefix, datPack) 
@@ -54,7 +72,7 @@ sf_rteCharacteristics_server <- function(input, output, session, suffix, datPack
   
 generate_datRTE <- function(input, prefix, datPack) {
   set.seed(get_input_value(input, prefix, "seed") + 1266)
-  
+  req(datPack())
   df <- sfCharacteristics(
     nLots = datPack()$nLots,
     awminSF    =get_input_value(input, prefix, "aw_min_SF"),
@@ -100,7 +118,7 @@ generate_datRTE <- function(input, prefix, datPack) {
 sf_rteCharacteristicsInputs_ui <- function(id) {  
   ns <- NS(id)  
   div(  
-  id = ns("ColdChain"),   
+  id = ns("Cold Chain"),   
 #  tagList(
     sliderInput(ns("aw_min_SF"), "Minimum water activity of RTE",
                 value = 0, min = 0.890, max = 1, step=0.001),

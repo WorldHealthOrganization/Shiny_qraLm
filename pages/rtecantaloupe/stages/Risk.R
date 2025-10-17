@@ -90,13 +90,13 @@ ca_RiskInputs_ui <- function(id) {
 #    tagList(
       selectInput(ns("Model"), 
                   label = makeHelp("Select DR Model:", 'DRForModel'),
-                  choices = list("JEMRA" = "JEMRA", 
-                                 "EFSA" = "EFSA",
-                                 "EFSALV" = "EFSALV",
-                                 "EFSAV" = "EFSAV",
-                                 "EFSAMV" = "EFSAMV",
-                                 "Pouillot" = "Pouillot",
-                                 "Fritsch" = "Fritsch"),
+                  choices = list("JEMRA 2004" = "JEMRA", 
+                                 "EFSA, 2018" = "EFSA",
+                                 "EFSA-Less Virulent" = "EFSALV",
+                                 "EFSA-Virulent" = "EFSAV",
+                                 "EFSA-More Virulent" = "EFSAMV",
+                                 "Pouillot et al, 2015" = "Pouillot",
+                                 "Fritsch et al, 2018" = "Fritsch"),
                   selected = "JEMRA"
       ),
       conditionalPanel(sprintf("input['%s'] == 'JEMRA'", ns("Model")),
@@ -105,7 +105,7 @@ ca_RiskInputs_ui <- function(id) {
                                    choices = list("Marginal over subpopulations" = 0,
                                                   "Healthy population" = 1,
                                                   "Increased susceptibility" = 2),
-                                   selected = 0
+                                   selected = 2
                        )
       ),
       conditionalPanel(sprintf("input['%s'] == 'Pouillot'", ns("Model")),
