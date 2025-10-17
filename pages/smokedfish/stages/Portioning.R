@@ -93,7 +93,7 @@ sf_PortioningInputs_ui <- function(id) {
                   value = 32.5, min = 32.5, max = 260, step = 32.5),
       sliderInput(ns("b_port_sf"), 
                   label = makeHelp("Dispersion factor of cells within the package (<i>bPortSF</i>)", 'sfPortioning'),
-                  value = 1, min = 0.2, max = 2, step = 0.1)
+                  value = 1, min = 0.1, max = 3, step = 0.1)
 #      )
   )
 }

@@ -79,6 +79,7 @@ fv_Partitioning_server <- function(input, output, session, suffix, datBlanch) {
 generate_datPart <- function(input, prefix, datBlanch) {
   if (isTRUE(getOption("myVerbose"))) print("reevaluate datPart")
   set.seed(get_input_value(input, prefix, "seed") + 852)
+  req(datBlanch())
   df <- fvPartitioningCC(
                      datBlanch(),
                      probCC = get_input_value(input, prefix, "pcc"),
@@ -95,14 +96,14 @@ fv_PartitioningInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("pcc"), 
                 label = makeHelp("Prob. cross-contamination (<i>probCC</i>)", 'fvPartitioningCC'),
-                value=0.25, min=0.0, max=1.0, step=0.01),
+                value=0.25, min=0.01, max=1.0, step=0.01),
     sliderInput(ns("n_equip"), 
                 label = makeHelp("Numbers of cells on the surface (<i>nEquip</i>)", 'fvPartitioningCC'),
-                value=45000, min=10000, max=100000, step=5000),
+                value=4500, min=1, max=100000, step=1000),
     sliderInput(ns("bccfv"), 
                 label = makeHelp("Dispersion factor of cells (<i>bCCFV</i>)", 'fvPartitioningCC'),
-                value=1.0, min=0, max=3, step=0.10)
- #   )
+                value = 1, min = 0.1, max = 3, step = 0.1)
+#   )
  )
 }
 

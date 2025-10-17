@@ -28,6 +28,13 @@ sf_Holding_server <- function(input, output, session, suffix, datFill) {
   
   # Define a reactive expression that updates and returns the data
   datHold <- eventReactive(input$updateSF, {
+    
+    is_valid <- checkPert(input, prefix, "temp_min_hold", "temp_mode_hold", "temp_max_hold") &
+      checkPert(input, prefix, "time_min_hold", "time_mode_hold", "time_max_hold")  
+    if (!is_valid) {
+      return(NULL)
+    }
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -74,6 +81,7 @@ sf_Holding_server <- function(input, output, session, suffix, datFill) {
 
 generate_datHold <- function(input, prefix, datFill) {
   set.seed(get_input_value(input, prefix, "seed") + 240342)
+  req(datFill())
   df <- sfRawFishStorage(
     datFill(),
 #    MPD = get_input_value(input, prefix, "mpd"), #  read from data
@@ -95,22 +103,22 @@ sf_HoldingInputs_ui <- function(id) {
 #    tagList(
        sliderInput(ns("temp_min_hold"),  
                    label = makeHelp("Minimum holding temperature (ºC) (<i>tempMin</i>)", 'sfRawFishStorage'),
-                    value = -2, min = -4, max = 5, step =0.20),
+                    value = -2, min = -4, max = 10, step =0.20),
       sliderInput(ns("temp_mode_hold"), 
                   label = makeHelp("Mode of holding temperature (ºC) (<i>tempMode</i>)", 'sfRawFishStorage'),
-                  value = 0, min = -3, max = 8, step = 0.20),
+                  value = 0, min = -4, max = 10, step = 0.20),
       sliderInput(ns("temp_max_hold"),  
                   label = makeHelp("Maximum holding temperature (ºC) (<i>tempMax</i>)", 'sfRawFishStorage'),
-                  value = 4, min = 1, max = 10, step = 0.20),
+                  value = 4, min = -4, max = 10, step = 0.20),
       sliderInput(ns("time_min_hold"),  
                   label = makeHelp("Minimum holding time (h) (<i>timeMin</i>)", 'sfRawFishStorage'),
-                  value = 1.0, min = 0.0, max = 12.0, step = 0.5),
+                  value = 1.0, min = 0.0, max = 24, step = 0.5),
       sliderInput(ns("time_mode_hold"), 
                   label = makeHelp("Mode of holding time (h) (<i>timeMode</i>)", 'sfRawFishStorage'),
-                  value = 2, min = 1, max = 16, step = 0.5),
+                  value = 2, min = 0, max = 24, step = 0.5),
       sliderInput(ns("time_max_hold"),  
                   label = makeHelp("Maximum holding time (h) (<i>timeMax.</i>)", 'sfRawFishStorage'),
-                  value = 6, min = 5, max = 24, step = 0.5)
+                  value = 6, min = 0, max = 24, step = 0.5)
 #    )
   )   
 }  

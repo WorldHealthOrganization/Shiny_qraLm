@@ -33,7 +33,6 @@ sf_Filleting_server <- function(input, output, session, suffix, datPrefill) {
       progress <- shiny::Progress$new()
       on.exit(progress$close())
       progress$set(message = "Filleting", value = 3/13)
-
       values$data <- generate_datFill(input, prefix, datPrefill) 
       # Need a function in the following functions
       datFn <- function() values$data
@@ -75,6 +74,7 @@ sf_Filleting_server <- function(input, output, session, suffix, datPrefill) {
 
 generate_datFill <- function(input, prefix, datPrefill) {
   set.seed(get_input_value(input, prefix, "seed") + 61658)
+  req(datPrefill())
   df <- sfSlicer(datPrefill(),
                  wSlices     = get_input_value(input, prefix, "w_slices_f"),
                  initSlicer  = get_input_value(input, prefix, "init_slicer_f"),
@@ -97,7 +97,7 @@ sf_FilletingInputs_ui <- function(id) {
                   value = 1300, min = 500, max = 2000, step = 100),
       sliderInput(ns("init_slicer_f"), 
                   label = makeHelp("Slicer initial contamination (CFU) (<i>initSlicer</i>)", 'sfSlicer'),
-                  value = 1000, min = 100, max = 10000, step = 100)
+                  value = 1000, min = 0, max = 100000, step = 10)
 #      )  
    )
 }

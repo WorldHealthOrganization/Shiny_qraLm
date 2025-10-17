@@ -131,7 +131,13 @@ Open your browser and go to `http://localhost:8000/`.
 - [Frozen Vegetables](https://doi.org/10.3390/foods13223610)
 - [Cold-Smoked Fish](https://doi.org/10.3390/foods13233831)
 - [RTE Cantaloupe](https://doi.org/10.3390/foods14132212)
- 
+
+### Developers
+
+- [Vasco Cadavez](https://orcid.org/0000-0002-3077-7414)
+- [Ursula Gonzales-Barron](https://orcid.org/0000-0002-8462-9775)
+- [Régis Pouillot](https://orcid.org/0000-0002-6107-5212)
+- [Laurent Guillier](https://orcid.org/0000-0002-7867-2937)
 
 ## License
 

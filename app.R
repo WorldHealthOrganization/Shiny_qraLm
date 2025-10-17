@@ -4,7 +4,7 @@
 #remotes::install_github("https://github.com/worldhealthorganization/qraLm", force = TRUE)
 rm(list = ls())
 gc()
-
+options("warn"=0) 
 ################" GLOBAL
 
 options(myVerbose = FALSE)
@@ -122,7 +122,7 @@ create_ui <- function(id) {
       # Define tabs
       tabPanel("About", about_ui("about")),
       tabPanel("Frozen Vegetables", value = "FV", frozenvegetables_ui("frozenvegetables")),
-      tabPanel("Smoked Fish", value = "SF", smokedfish_ui("smokedfish")),
+      tabPanel("RTE Cold-Smoked Fish", value = "SF", smokedfish_ui("smokedfish")),
       tabPanel("RTE Cantaloupe", value = "CA", rtecantaloupe_ui("rtecantaloupe"))
     ),
     
