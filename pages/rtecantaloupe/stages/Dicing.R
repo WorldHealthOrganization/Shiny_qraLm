@@ -25,8 +25,24 @@ ca_Dicing_server <- function(input, output, session, suffix, datWashing) {
   prefix <- "rtecantaloupe-sidebar-inputs-"
   values <- reactiveValues(data = NULL)
   
+  
   # Define a reactive expression that updates and returns the data
   datDicing <- eventReactive(input$updateCA, {
+    
+    weightCantaRindFree <- get_input_value(input, prefix, "canta_rind_free")    
+    weightCanta <- get_input_value(input, prefix, "canta_weight")    
+    
+    is_valid <- weightCantaRindFree <= weightCanta  
+    if (!is_valid) {
+      showModal(modalDialog(
+        title = "Error in parameter specification",
+        HTML(paste("The weight of a rind free cantaloupe (set in stage Dicing) must be lower or equal to the weight of the whole cantaloupe (set in stage Production)")),
+        easyClose = TRUE,
+        footer = modalButton("Close")
+      ))
+      return(NULL)
+    }
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -74,6 +90,11 @@ ca_Dicing_server <- function(input, output, session, suffix, datWashing) {
 
 generate_datDicing <- function(input, prefix, datWashing) {
   set.seed(get_input_value(input, prefix, "seed") + 159)
+  req(datWashing())
+  
+  # Evaluate from number of sublots
+  size_sublot <- ncol(datWashing()$N) / get_input_value(input, prefix, "size_sublot")
+  
   df <- caDicing(
     datWashing(),
     minTR = 0.087,
@@ -81,22 +102,22 @@ generate_datDicing <- function(input, prefix, datWashing) {
     maxTR = 2.82,
     cantaSurface  = 580,
     cantaRindFree = get_input_value(input, prefix, "canta_rind_free"),
-    sizeSublot = get_input_value(input, prefix, "size_sublot")
-    )
+    sizeSublot = size_sublot
+  )
   return(df)
 }
 
 ca_DicingInputs_ui <- function(id) {
   ns <- NS(id)
   div(
-  id = ns("Dicing"),
-#  tagList(
-sliderInput(ns("canta_rind_free"),
-            label = makeHelp("Weight of a seedless rind-free cantaloupe (%) (<i>cantaRindFree</i>)", "caDicing"),
-            value = 950, min = 600, max = 1000, step=50),
+    id = ns("Dicing"),
+    #  tagList(
+    sliderInput(ns("canta_rind_free"),
+                label = makeHelp("Weight of a seedless rind-free cantaloupe (g) (<i>cantaRindFree</i>)", "caDicing"),
+                value = 950, min = 400, max = 1000, step=50),
     sliderInput(ns("size_sublot"),
-                label = makeHelp("Number of cantaloupes to be diced (<i>sizeSublot</i>)", "caDicing"),
-                value = 500, min = 50, max = 1000, step=50)
-#    )
+                label = makeHelp("Number of sublots (<i>sizeLot/sizeSublot</i>)", "caDicing"),
+                value = 2, min = 1, max = 10, step=1)
+    #    )
   )
 }

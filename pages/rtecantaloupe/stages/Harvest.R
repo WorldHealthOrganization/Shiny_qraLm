@@ -73,9 +73,10 @@ ca_Harvest_server <- function(input, output, session, suffix, datCanta) {
 
 generate_datHarvest <- function(input, prefix, datCanta) {
   set.seed(get_input_value(input, prefix, "seed") + 9713)
+  req(datCanta())
   df <- caHarvestCC(
     datCanta(),
-    probCCH = get_input_value(input, prefix, "prob_cch"),
+    probCCH = pmin(pmax(get_input_value(input, prefix, "prob_cch"),0.001),0.999),
     trMean  = -1.42,
     trSd    = 0.52,
     nPlas  = get_input_value(input, prefix, "n_plas")
@@ -90,7 +91,7 @@ ca_HarvestInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("prob_cch"),
                 label = makeHelp("Probability of cross-contamination during harvest (<i>probCCH</i>)","caHarvestCC"),
-                value = 0.25, min = 0, max = 1, step=0.1),
+                value = 0.25, min = 0, max = 1, step=0.05),
      sliderInput(ns("n_plas"),
                 label = makeHelp("Numbers of LM on food contact surfaces (<i>nPlas</i>)", "caHarvestCC"),
                 value = 9, min = 0, max = 20, step=1)

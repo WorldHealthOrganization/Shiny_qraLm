@@ -19,22 +19,32 @@ sf_ColdChain_ui <- function(id) {
   )
 }
 
-sf_ColdChain_server <- function(input, output, session, suffix, datPack, RTE) {
+sf_ColdChain_server <- function(input, output, session, suffix, datTest, RTE) {
   ns <- NS(suffix)
-  id <- ns("ColdChain")
+  id <- ns("Cold Chain")
   
   prefix <- "smokedfish-sidebar-inputs-"
   values <- reactiveValues(data = NULL)
   
   # Define a reactive expression that updates and returns the data
   datColdChain <- eventReactive(input$updateSF, {
+    
+    is_valid <- checkPert(input, prefix, "temp_min_cc", "temp_mode_cc", "temp_max_cc") &
+      checkPert(input, prefix, "time_min_cc", "time_mode_cc", "time_max_cc")   &
+      checkPert(input, prefix, "N0_LAB_min", "N0_LAB_mode", "N0_LAB_max")   &
+      checkPert(input, prefix, "MPD_LAB_min", "MPD_LAB_mode", "MPD_LAB_max")   &
+      checkPert(input, prefix, "MPD_Lm_min", "MPD_Lm_mode", "MPD_Lm_max") 
+    if (!is_valid) {
+      return(NULL)
+    }
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
       on.exit(progress$close())
       progress$set(message = "Cold chain", value = 10/13)
       
-      values$data <- generate_datColdChain(input, prefix, datPack, RTE)
+      values$data <- generate_datColdChain(input, prefix, datTest, RTE)
       # Need a function in the following functions
       datFn <- function() values$data
       if (isTRUE(getOption("myVerbose"))) print("reevaluate stat datColdChain")
@@ -72,12 +82,15 @@ sf_ColdChain_server <- function(input, output, session, suffix, datPack, RTE) {
   return(datColdChain)
 }
 
-generate_datColdChain <- function(input, prefix, datPack, RTE) {
+generate_datColdChain <- function(input, prefix, datTest, RTE) {
   set.seed(get_input_value(input, prefix, "seed") + 18062006)
+  
+  req(datTest(),  RTE())
+  
   df1 <- sfColdChain(
-    datPack(),
+    datTest(),
     RTE = RTE(),
-    #    unitSize =  datPack()$unitSize,
+    #    unitSize =  datTest()$unitSize,
     tempMin  = get_input_value(input, prefix, "temp_min_cc"),
     tempMode = get_input_value(input, prefix, "temp_mode_cc"),
     tempMax  = get_input_value(input, prefix, "temp_max_cc"),
@@ -113,6 +126,7 @@ generate_datColdChain <- function(input, prefix, datPack, RTE) {
     micBACuLm = 0.349,
     micCACuLm = 2.119,
     micSACuLm = 1.896,
+    
     mumaxrefLAB = 0.583,
     TminLAB   = -5.25,
     TrefLAB    = 25,
@@ -138,42 +152,42 @@ generate_datColdChain <- function(input, prefix, datPack, RTE) {
 sf_ColdChainInputs_ui <- function(id) {  
   ns <- NS(id)  
   div(  
-    id = ns("ColdChain"),   
+    id = ns("Cold Chain"),   
     #  tagList(
     sliderInput(ns("temp_min_cc"),     
                 label = makeHelp("Minimum storage temperature (ºC) (<i>tempMin</i>)", 'sfColdChain'),
-                value = 0.28, min = 0, max = 4, step=0.02),
+                value = 0.28, min = -2, max = 12, step=0.1),
     sliderInput(ns("temp_mode_cc"),     
                 label = makeHelp("Mode storage temperature (ºC) (<i>tempMode</i>)", 'sfColdChain'),
-                value = 4.6, min = 0, max = 7, step=0.1),
+                value = 4.6, min = -2, max = 12, step=0.1),
     sliderInput(ns("temp_max_cc"),     
                 label = makeHelp("Maximum storage temperature (ºC) (<i>tempMax</i>)", 'sfColdChain'),
-                value = 7, min = 4, max = 12, step=0.1),
+                value = 7, min = -2, max = 12, step=0.1),
     sliderInput(ns("time_min_cc"),     
                 label = makeHelp("Minimum storage time (h) (<i>timeMin</i>)", 'sfColdChain'),
-                value = 12, min = 0, max = 24, step=2),
+                value = 12, min = 0, max = 1000, step=1),
     sliderInput(ns("time_mode_cc"),     
                 label = makeHelp("Mode storage time (h) (<i>timeMode</i>)", 'sfColdChain'),
-                value = 144, min = 0, max = 200, step=2),
+                value = 144, min = 0, max = 1000, step=1),
     sliderInput(ns("time_max_cc"),     
                 label = makeHelp("Maximum storage time (h) (<i>timeMax</i>)", 'sfColdChain'),
-                value = 720, min = 0, max = 1000, step=10),
+                value = 720, min = 0, max = 1000, step=1),
     selectInput(ns("Variability_cc"),     
                 label = makeHelp("Variability for time and temperature (<i>variability</i>)", 'sfColdChain'),
                 choices = c("lot", "column", "portion"), selected=c("lot")),
     sliderInput(ns("cor_time_temp"),     
                 label = makeHelp("Correlation time/temperature (<i>corTimeTemp</i>)", 'sfColdChain'),
                 "corTimeTemp: Correlation time/temperature",
-                value = -0.16, min = -1.0, max = 1.0, step=0.02),
+                value = -0.16, min = -0.99, max = 0.99, step=0.02),
     sliderInput(ns("N0_LAB_min"),     
                 label = makeHelp("Minimum LAB counts (log10 CFU/g) (<i>N0LABmin</i>)", 'sfColdChain'),
-                value = -1.0, min = -2, max = 4, step=0.1),
+                value = -1.0, min = -2, max = 10, step=0.1),
     sliderInput(ns("N0_LAB_mode"),     
                 label = makeHelp("Mode of LAB counts (log10 CFU/g) (<i>N0LABmode</i>)", 'sfColdChain'),
-                value = 0.28, min = -2 , max = 6, step=0.1),
+                value = 0.28, min = -2 , max = 10, step=0.1),
     sliderInput(ns("N0_LAB_max"),     
                 label = makeHelp("Maximum LAB counts (log10 CFU/g) (<i>N0LABmax</i>)", 'sfColdChain'),
-                value = 1.6, min = 1.0 , max = 10, step=0.1),
+                value = 1.6, min = -2 , max = 10, step=0.1),
     sliderInput(ns("MPD_LAB_min"),     
                 label = makeHelp("Minimum MPD of LAB (⁠log10 CFU/g (<i>MPDLABmin</i>)", 'sfColdChain'),
                 value = 8, min = 4 , max = 10, step=0.25),

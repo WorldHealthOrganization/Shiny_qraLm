@@ -73,6 +73,7 @@ ca_Testing_server <- function(input, output, session, suffix, datPartitioning) {
 
 generate_datTesting <- function(input, prefix, datPartitioning) {
   set.seed(get_input_value(input, prefix, "seed") + 666)
+  req(datPartitioning())
   df <- caTesting(
     datPartitioning(),
     nTested     = get_input_value(input, prefix, "n_tested"),
@@ -97,25 +98,25 @@ ca_TestingInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("n_tested"),
                 label = makeHelp("Sample size or number of units tested (<i>nTested</i>)", "caTesting"),
-                value = 10, min = 0.0, max = 20, step=5),
+                value = 10, min = 0.0, max = 20, step=1),
     sliderInput(ns("g_tested"),
-                label = makeHelp("Sample weight tested per unit (<i>gTested</i>)", "caTesting"),
+                label = makeHelp("Sample weight tested per unit (g) (<i>gTested</i>)", "caTesting"),
                 value = 10, min = 5, max = 50, step=5),
     sliderInput(ns("m_tested"),
-                label = makeHelp("Maximum concentration accepted in a sample (<i>mTested</i>)", "caTesting"),
-                value = 2, min = 0, max = 5, step=1),
+                label = makeHelp("Maximum concentration accepted in a sample (CFU/g) (<i>mTested</i>)", "caTesting"),
+                value = 2, min = 0, max = 1000, step=10),
     sliderInput(ns("c_tested"),
                 label = makeHelp("Maximum number of samples accepted (<i>cTested</i>)", "caTesting"),
                 value = 1, min = 0, max = 10, step=1),
     sliderInput(ns("p_lot_tested"),
                 label = makeHelp("Proportion of lots subjected to sampling and testing (<i>pLotTested</i>)", "caTesting"),
-                value = 0.1, min = 0, max = 1, step=0.1),
+                value = 0.0, min = 0, max = 1, step=0.1),
     sliderInput(ns("se"),
                 label = makeHelp("Sensibility of the test or probability to detect (<i>Se</i>)", "caTesting"),
                 value = 1, min = 0, max = 1, step=0.050),
     sliderInput(ns("g_tested_enum"),
-                label = makeHelp("Sample weight tested for enumeration (<i>gTestedEnum</i>)", "caTesting"),
-                value = 10, min = 5, max = 20, step=5)
+                label = makeHelp("Sample weight tested for enumeration (g) (<i>gTestedEnum</i>)", "caTesting"),
+                value=10, min=5, max=100, step=5)
 #    )
   )
 }

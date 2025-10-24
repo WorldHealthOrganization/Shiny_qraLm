@@ -20,13 +20,20 @@ ca_ConsumersTransport_ui <- function(id) {
 
 ca_ConsumersTransport_server <- function(input, output, session, suffix, datRTEStorage) {
   ns <- NS(suffix)
-  id <- ns("ConsumersTransport")
+  id <- ns("Consumers Transport")
   
   prefix <- "rtecantaloupe-sidebar-inputs-"
   values <- reactiveValues(data = NULL)
   
   # Define a reactive expression that updates and returns the data
   datConsumersTransport <- eventReactive(input$updateCA, {
+    
+    is_valid <- checkPert(input, prefix, "temp_min_con", "temp_mod_con", "temp_max_con")
+    if (!is_valid) {
+      return(NULL)
+    }
+    
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -73,6 +80,7 @@ ca_ConsumersTransport_server <- function(input, output, session, suffix, datRTES
 
 generate_datConsumersTransport <- function(input, prefix, datConsumersTransport) {
   set.seed(get_input_value(input, prefix, "seed") + 123)
+  req(datConsumersTransport())
   df <- caRet2HomeRTE(
                       datConsumersTransport(),
                       Tmin      = -2.0196,
@@ -88,17 +96,17 @@ generate_datConsumersTransport <- function(input, prefix, datConsumersTransport)
 ca_ConsumersTransportInputs_ui <- function(id) {
   ns <- NS(id)
   div(
-  id = ns("ConsumersTransport"),
+  id = ns("Consumers Transport"),
 #  tagList(
     sliderInput(ns("temp_min_con"),
                 label = makeHelp("Minimum transportation temperature (ºC) (<i>tempMin</i>)", "caRet2HomeRTE"),
-                value = 7, min = 5, max = 14, step=0.5),
+                value = 7, min = 5, max = 35, step=0.5),
     sliderInput(ns("temp_mod_con"),
                 label = makeHelp("Mode transportation temperature (ºC) (<i>tempMode</i>)", "caRet2HomeRTE"),
-                value = 15, min = 10, max = 20, step=0.5),
+                value = 15, min = 5, max = 35, step=0.5),
     sliderInput(ns("temp_max_con"),
-                label = makeHelp("Max transportation temperature (ºC) (<i>tempMax</i>)", "caRet2HomeRTE"),
-                value = 30, min = 25, max = 35, step=0.5),
+                label = makeHelp("Maximum transportation temperature (ºC) (<i>tempMax</i>)", "caRet2HomeRTE"),
+                value = 30, min = 5, max = 35, step=0.5),
     sliderInput(ns("time_shape"),
                 label = makeHelp("Shape parameter of the gamma distribution (<i>timeShape</i>)", "caRet2HomeRTE"),
                 value = 6.2, min = 5.0, max = 10, step=0.2),

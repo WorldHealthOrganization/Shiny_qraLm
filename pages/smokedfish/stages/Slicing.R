@@ -75,7 +75,7 @@ sf_Slicing_server <- function(input, output, session, suffix, datSmoke) {
 
 generate_datSlice <- function(input, prefix, datSmoke) {
   set.seed(get_input_value(input, prefix, "seed") + 9833)
-  
+  req(datSmoke())
   df <- sfSlicer(datSmoke(),
                  wSlices     = get_input_value(input, prefix, "w_slices_s"),
                  initSlicer  = get_input_value(input, prefix, "init_slicer_s"),
@@ -99,7 +99,7 @@ sf_SlicingInputs_ui <- function(id) {
                   value = 32.5, min = 10, max = 50, step = 2.5),
       sliderInput(ns("init_slicer_s"), 
                   label = makeHelp("Slicer initial contamination (CFU) (<i>initSlicer</i>)", 'sfSlicer'),
-                  value = 0, min = 0, max = 10000, step = 100)
+                  value = 0, min = 0, max = 100000, step = 100)
 #    )  
    )
 }

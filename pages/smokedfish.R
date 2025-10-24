@@ -12,8 +12,9 @@ smokedfish_ui <- function(id) {
 smokedfish_server <- function(input, output, session, id) {
   # Define the processing stages for smoked fish
   sf_stages <- c("Production", "Prefilleting", "Filleting",
-                 "Holding", "BriningOrSalting", "Smoking", 
-                 "Slicing", "Packaging", "Characteristics", "ColdChain", 
+                 "Holding", "Brining Or Salting", "Smoking", 
+                 "Slicing", "Packaging", "Testing", 
+                 "Characteristics", "Cold Chain", 
                  "Home", "Portioning", "Risk")
   
   # Source the sidebar module code locally

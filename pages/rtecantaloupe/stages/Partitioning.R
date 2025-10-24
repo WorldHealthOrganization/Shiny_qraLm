@@ -73,6 +73,7 @@ ca_Partitioning_server <- function(input, output, session, suffix, datDicing) {
 
 generate_datPartitioning <- function(input, prefix, datDicing) {
   set.seed(get_input_value(input, prefix, "seed") + 2486)
+  req(datDicing())
   df <- caPartitioningCC(
     datDicing(),
     probCCDice    = get_input_value(input, prefix, "prob_cc_dice"),
@@ -93,16 +94,16 @@ ca_PartitioningInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("prob_cc_dice"),
                 label = makeHelp("Probability of cross-contamination from the dicing machine (<i>probCCDice</i>)", "caPartitioningCC"),
-                value = 0.5, min = 0.0, max = 1.0, step=0.1),
+                value = 0.25, min = 0.0, max = 1.0, step=0.1),
     sliderInput(ns("n_dicer"),
                 label = makeHelp("Numbers of LM on the surface of the dicing machine (<i>nDicer</i>)", "caPartitioningCC"),
-                value = 100, min = 0, max = 500, step=100),
+                value = 9, min = 0, max = 500, step=1),
      sliderInput(ns("unit_size_dic"),
                  label = makeHelp("Weight of a pack of cantaloupe dices (g) (<i>unitSize</i>)", "caPartitioningCC"),
                  value = 200, min = 100, max = 500, step=50),
     sliderInput(ns("b_canta"),
                 label = makeHelp("Dispersion factor of the beta distribution (<i>b</i>)", "caPartitioningCC"),
-                value = 1, min = 1, max = 2, step=0.05)
+                value = 1, min = 0.1, max = 3, step = 0.1)
 #    )
   )
 }

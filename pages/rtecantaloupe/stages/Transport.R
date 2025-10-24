@@ -27,6 +27,14 @@ ca_Transport_server <- function(input, output, session, suffix, datTesting) {
   
   # Define a reactive expression that updates and returns the data
   datTransport <- eventReactive(input$updateCA, {
+    
+    is_valid <- checkPert(input, prefix, "temp_min", "temp_mod", "temp_max") &
+      checkPert(input, prefix, "time_min", "time_mod", "time_max")
+    if (!is_valid) {
+      return(NULL)
+    }
+    
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -73,6 +81,7 @@ ca_Transport_server <- function(input, output, session, suffix, datTesting) {
 
 generate_datTransport <- function(input, prefix, datTransport) {
   set.seed(get_input_value(input, prefix, "seed") + 42)
+  req(datTransport())
   df <- caTrans2RetRTE(
     datTransport(),
     MPD = 8,
@@ -98,22 +107,22 @@ ca_TransportInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("temp_min"),
                 label = makeHelp("Minimum transportation temperature (ºC) (<i>tempMin</i>)", "caTrans2RetRTE"),
-                value = 3, min = 0.0, max = 5, step=0.5),
+                value = 3, min = 0.0, max = 15, step=0.5),
     sliderInput(ns("temp_mod"),
                 label = makeHelp("Mode transportation temperature (ºC) (<i>tempMode</i>)", "caTrans2RetRTE"),
-                value = 5, min = 2.0, max = 10, step=0.5),
+                value = 5, min = 0.0, max = 15, step=0.5),
     sliderInput(ns("temp_max"),
-                label = makeHelp("Max transportation temperature (ºC) (<i>tempMax</i>)", "caTrans2RetRTE"),
-                value = 10.3, min = 5, max = 15, step=0.5),
+                label = makeHelp("Maximum transportation temperature (ºC) (<i>tempMax</i>)", "caTrans2RetRTE"),
+                value = 10.3, min = 0.0, max = 15, step=0.5),
     sliderInput(ns("time_min"),
                 label = makeHelp("Minimum transportation time (h) (<i>timeMin</i>)", "caTrans2RetRTE"),
-                value = 2, min = 0.0, max = 5, step=0.5),
+                value = 2, min = 0.0, max = 15, step=0.5),
     sliderInput(ns("time_mod"),
                 label = makeHelp("Mode transportation time (h) (<i>timeMode</i>)", "caTrans2RetRTE"),
-                value = 5, min = 2.0, max = 10, step=0.5),
+                value = 5, min = 0, max = 15, step=0.5),
     sliderInput(ns("time_max"),
                 label = makeHelp("Max transportation time (h) (<i>timeMax</i>)", "caTrans2RetRTE"),
-                value = 9, min = 5, max = 15, step=0.5)
+                value = 9, min = 0, max = 15, step=0.5)
 #    )
   )
 }

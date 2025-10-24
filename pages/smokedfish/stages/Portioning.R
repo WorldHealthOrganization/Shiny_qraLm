@@ -29,12 +29,35 @@ sf_Portioning_server <- function(input, output, session, suffix, datHome) {
   
   # Define a reactive expression that updates and returns the data
   datPort <- eventReactive(input$updateSF, {
+    
+    serving_size <- get_input_value(input, prefix, "serving_size")    
+    slices_per_pack <- get_input_value(input, prefix, "slices_per_pack")    
+    w_slices_s <- get_input_value(input, prefix, "w_slices_s") 
+    
+    is_valid <- serving_size <= (slices_per_pack * w_slices_s)  
+    if (!is_valid) {
+      showModal(modalDialog(
+        title = "Error in parameter specification",
+        HTML(paste("The maximum serving size is one pack, <i>i.e</i> ",
+                   slices_per_pack, "slices (set in stage Packaging) of",
+                   w_slices_s, "g (set in slicing) =",
+                   round(slices_per_pack * w_slices_s),
+                   "g")),
+        easyClose = TRUE,
+        footer = modalButton("Close")
+      ))
+      return(NULL)
+    }
+    
+    
+    datHome()
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
       on.exit(progress$close())
       progress$set(message = "Portioning", value = 12/13)
-      
+
       values$data <- generate_datPort(input, prefix, datHome)
       # Need a function in the following functions
       datFn <- function() values$data
@@ -89,11 +112,11 @@ sf_PortioningInputs_ui <- function(id) {
   id = ns("Portioning"),
 #    tagList(
       sliderInput(ns("serving_size"), 
-                  label = makeHelp("Portion taken from a pack (g) (<i>servingSize</i>)", 'sfPortioning'),
-                  value = 32.5, min = 32.5, max = 260, step = 32.5),
+                  label = makeHelp("Portion taken from a pack (g) (<i>servingSize</i>) (maximum: 1 pack)", 'sfPortioning'),
+                  value = 32.5, min = 10, max = 310, step = 1),
       sliderInput(ns("b_port_sf"), 
                   label = makeHelp("Dispersion factor of cells within the package (<i>bPortSF</i>)", 'sfPortioning'),
-                  value = 1, min = 0.2, max = 2, step = 0.1)
+                  value = 1, min = 0.1, max = 3, step = 0.1)
 #      )
   )
 }
