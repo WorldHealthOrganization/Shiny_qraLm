@@ -96,10 +96,10 @@ fv_PartitioningInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("pcc"), 
                 label = makeHelp("Prob. cross-contamination (<i>probCC</i>)", 'fvPartitioningCC'),
-                value=0.25, min=0.01, max=1.0, step=0.01),
+                value=0.25, min=0, max=1.0, step=0.01),
     sliderInput(ns("n_equip"), 
                 label = makeHelp("Numbers of cells on the surface (<i>nEquip</i>)", 'fvPartitioningCC'),
-                value=4500, min=1, max=100000, step=1000),
+                value=4500, min=0, max=1500000, step=1000),
     sliderInput(ns("bccfv"), 
                 label = makeHelp("Dispersion factor of cells (<i>bCCFV</i>)", 'fvPartitioningCC'),
                 value = 1, min = 0.1, max = 3, step = 0.1)

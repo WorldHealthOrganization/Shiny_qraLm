@@ -92,7 +92,7 @@ fv_BlanchingInputs_ui <- function(id) {
     #  tagList(
     sliderInput(ns("temp_blanch"),
                 label = makeHelp("Temperature of blanching (ºC) (<i>tempBlanch</i>)", 'fvBlanching'),
-                value = 83.0, min = 70.0, max = 90.0, step=1.0),
+                value = 83.0, min = 70.0, max = 100.0, step=1.0),
     sliderInput(ns("time_blanch"),
                 label = makeHelp("Duration of blanching (min) (<i>timeBlanch</i>)", 'fvBlanching'),
                 value = 0.75, min = 0.0, max = 3.0, step=0.05)

@@ -30,7 +30,7 @@ ca_Dicing_server <- function(input, output, session, suffix, datWashing) {
   datDicing <- eventReactive(input$updateCA, {
     
     weightCantaRindFree <- get_input_value(input, prefix, "canta_rind_free")    
-    weightCanta <- get_input_value(input, "rtecantaloupe-sidebar-inputs-", "canta_weight")    
+    weightCanta <- get_input_value(input, prefix, "canta_weight")    
     
     is_valid <- weightCantaRindFree <= weightCanta  
     if (!is_valid) {
