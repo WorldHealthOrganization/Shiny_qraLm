@@ -27,9 +27,11 @@ inputListSFSmoke <- c(inputListSFBrineSalt, "r_brine_mean", "r_brine_sd", "r_dry
 
 inputListSFSlice <- c(inputListSFSmoke, "w_slices_s", "init_slicer_s")
 
-inputListSFPack <- c(inputListSFSmoke, "slices_per_pack")
+inputListSFPack <- c(inputListSFSlice, "slices_per_pack")
 
-inputListSFRTE <- c(inputListSFPack,  "aw_min_SF", "aw_mode_SF","aw_max_SF",
+inputListSFTest <- c(inputListSFPack, "n_tested", "g_tested","m_tested","c_tested", "p_lot_tested", "se", "g_tested_enumeration")
+
+inputListSFRTE <- c(inputListSFTest,  "aw_min_SF", "aw_mode_SF","aw_max_SF",
                     "NaCl_min_SF","NaCl_mode_SF","NaCl_max_SF",
                     "P_min_SF", "P_mode_SF", "P_max_SF", 
                     "pH_min_SF", "pH_mode_SF", "pH_max_SF", 
@@ -55,7 +57,7 @@ inputListSFHome <- c(inputListSFColdChain, "temp_min_h", "temp_mode_h", "temp_ma
 
 inputListSFPort <- c(inputListSFHome, "serving_size", "b_port_sf")
 
-inputListSFRisk <- c(inputListSFHome, "Model", "PopulationJEMRA","PopulationPouillot","PopulationEFSA",
+inputListSFRisk <- c(inputListSFPort, "Model", "PopulationJEMRA","PopulationPouillot","PopulationEFSA",
                      "PopulationEFSALV","PopulationEFSAV","PopulationEFSAMV","PopulationFritsch")
 
 

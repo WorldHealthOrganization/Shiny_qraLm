@@ -75,7 +75,7 @@ sf_Smoking_server <- function(input, output, session, suffix, datBrinesalt) {
 
 generate_datSmoke <- function(input, prefix, datBrinesalt) {
   set.seed(get_input_value(input, prefix, "seed") + 69874)
-  
+  req(datBrinesalt())
   df <- sfSmoking(
                   datBrinesalt(),
                   rBrineMean   = get_input_value(input, prefix, "r_brine_mean"),   # 0.871
@@ -93,15 +93,15 @@ sf_SmokingInputs_ui <- function(id) {
 #    tagList(
 sliderInput(ns("r_brine_mean"), 
             label = makeHelp("Mean of the normal distribution about log10 reduction in LM in brined fillets (log10) (<i>rBrineMean</i>)", 'sfSmoking'),
-            value = 0.871, min = 0.25, max = 1.50, step = 0.01),
+            value = 0.871, min = 0, max = 3, step = 0.01),
 sliderInput(ns("r_brine_sd"), 
-            label = makeHelp("Std of the normal distribution about the log10 reduction in LM in brineed fillets (log10) (<i>rBrineSd</i>)", 'sfSmoking'),
-            value = 0.807, min = 0.25, max = 1.50, step = 0.01),
+            label = makeHelp("Standard deviation of the normal distribution about the log10 reduction in LM in brined fillets (log10) (<i>rBrineSd</i>)", 'sfSmoking'),
+            value = 0.807, min = 0, max = 3, step = 0.01),
 sliderInput(ns("r_drysalt_mean"), 
             label = makeHelp("Mean of the normal distribution about log10 reduction in LM in dry-salted fillets (log10) (<i>rDrysaltMean</i>)", 'sfSmoking'),
-            value = 1.093, min = 0.25, max = 1.50, step = 0.01),
+            value = 1.093, min = 0, max = 3, step = 0.01),
 sliderInput(ns("r_drysalt_sd"), 
-            label = makeHelp("Std of the normal distribution about the log10 reduction in LM in dry-salted fillets (log10) (<i>rDrysaltSd</i>)", 'sfSmoking'),
-            value = 0.532, min = 0.25, max = 1.50, step = 0.01)
+            label = makeHelp("Standard deviation of the normal distribution about the log10 reduction in LM in dry-salted fillets (log10) (<i>rDrysaltSd</i>)", 'sfSmoking'),
+            value = 0.532, min = 0, max = 3, step = 0.01)
 )
 }

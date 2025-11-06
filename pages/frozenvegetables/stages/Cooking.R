@@ -29,6 +29,12 @@ fv_Cooking_server <- function(input, output, session, suffix, datDefrost) {
   prefix <- "frozenvegetables-sidebar-inputs-"
   
   datCook <- eventReactive(input$updateFV, {
+    
+    is_valid <- checkPert(input, prefix, "min_cook", "mode_cook", "max_cook")  
+    if (!is_valid) {
+      return(NULL)
+    }
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -75,6 +81,7 @@ fv_Cooking_server <- function(input, output, session, suffix, datDefrost) {
 generate_datCook <- function(input, prefix, datDefrost) {
   if (isTRUE(getOption("myVerbose"))) print("reevaluate datCook")
   set.seed(get_input_value(input, prefix, "seed") + 160470)
+  req(datDefrost())
   df <- fvCooking(
                  datDefrost(),
                  pCooked = get_input_value(input, prefix, "p_cooked"),
@@ -95,13 +102,13 @@ fv_CookingInputs_ui <- function(id) {
                 value=1.0, min=0.00, max=1.00, step=0.05),
     sliderInput(ns("min_cook"), 
                 label = makeHelp("Minimum LM log reduction (<i>minCook</i>)", 'fvCooking'),
-                value=1, min=0, max=5, step=0.25),
+                value=1, min=0, max=9, step=0.25),
     sliderInput(ns("mode_cook"), 
                 label = makeHelp("Mode of LM log reduction (<i>modeCook</i>)", 'fvCooking'),
-                value=5, min=2, max=8, step=0.25),
+                value=5, min=0, max=9, step=0.25),
     sliderInput(ns("max_cook"), 
                 label = makeHelp("Maximum LM log reduction (<i>maxCook</i>)", 'fvCooking'),
-                value=9, min=5, max=9, step=0.25) 
+                value=9, min=0, max=9, step=0.25) 
 #    )
   )
 }

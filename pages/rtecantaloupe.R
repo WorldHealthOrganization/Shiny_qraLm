@@ -13,8 +13,8 @@ rtecantaloupe_server <- function(input, output, session, id) {
   # Define the processing stages for RTE Cantaloupe
   
   ca_stages <- c("Production", "Harvest", "Brushing", "Storing", "Washing", "Dicing",
-                 "Partitioning", "Testing", "Transport", "RTEStorage",
-                 "ConsumersTransport", "StoredDices", "Risk")
+                 "Partitioning", "Testing", "Transport", "Storage",
+                 "Consumers Transport", "StoredDices", "Risk")
   
   # Source the sidebar module code locally to avoid global namespace pollution
   source("pages/rtecantaloupe/sidebar.R", local = TRUE)

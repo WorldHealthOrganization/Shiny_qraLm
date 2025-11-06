@@ -74,7 +74,7 @@ sf_Packaging_server <- function(input, output, session, suffix, datSlice) {
 
 generate_datPack <- function(input, prefix, datSlice) {
   set.seed(get_input_value(input, prefix, "seed") + 9879)
-  
+  req(datSlice())
   df <- sfPackaging(
                     datSlice(),
                     slicesPerPack = get_input_value(input, prefix, "slices_per_pack"))

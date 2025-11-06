@@ -27,6 +27,14 @@ ca_StoredDices_server <- function(input, output, session, suffix, datConsumersTr
   
   # Define a reactive expression that updates and returns the data
   datStoredDices <- eventReactive(input$updateCA, {
+    
+    is_valid <- checkPert(input, prefix, "temp_min_h", "temp_mode_h", "temp_max_h") &
+      checkPert(input, prefix, "time_min_h", "time_mode_h", "time_max_h")
+    if (!is_valid) {
+      return(NULL)
+    }
+    
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -73,6 +81,7 @@ ca_StoredDices_server <- function(input, output, session, suffix, datConsumersTr
 
 generate_datStoredDices <- function(input, prefix, datConsumersTransport) {
   set.seed(get_input_value(input, prefix, "seed") + 3186)
+  req(datConsumersTransport())
   df <- caHomeRTE(
                       datConsumersTransport(),
                       Tmin      = -2.0196,
@@ -91,23 +100,23 @@ ca_StoredDicesInputs_ui <- function(id) {
   id = ns("StoredDices"),
 #  tagList(
     sliderInput(ns("temp_min_h"),
-                label = makeHelp("Minimum retail temperature (ºC) (<i>tempMin</i>)", "caHomeRTE"),
-                value = 3.1, min = 2, max = 5, step=0.5),
+                label = makeHelp("Minimum home temperature (ºC) (<i>tempMin</i>)", "caHomeRTE"),
+                value = 3.1, min = 0, max = 30, step=0.5),
     sliderInput(ns("temp_mode_h"),
-                label = makeHelp("Mode retail temperature (ºC) (<i>tempMode</i>)", "caHomeRTE"),
-                value = 6.64, min = 5, max = 10, step=0.5),
+                label = makeHelp("Mode home temperature (ºC) (<i>tempMode</i>)", "caHomeRTE"),
+                value = 6.64, min = 0, max = 30, step=0.5),
     sliderInput(ns("temp_max_h"),
-                label = makeHelp("Max retail temperature (ºC) (<i>tempMax</i>)", "caHomeRTE"),
-                value = 11.1, min = 8, max = 15, step=0.5),
+                label = makeHelp("Maximum home temperature (ºC) (<i>tempMax</i>)", "caHomeRTE"),
+                value = 11.1, min = 0, max = 30, step=0.5),
     sliderInput(ns("time_min_h"),
-                label = makeHelp("Minimum retail time (h) (<i>timeMin</i>)", "caHomeRTE"),
-                value = 3, min = 0.0, max = 5, step=2),
+                label = makeHelp("Minimum home time (h) (<i>timeMin</i>)", "caHomeRTE"),
+                value = 3, min = 0.0, max = 150, step=0.5),
     sliderInput(ns("time_mode_h"),
-                label = makeHelp("Mode retail time (h) (<i>timeMode</i>)", "caHomeRTE"),
-                value = 24, min = 10, max = 30, step=2),
+                label = makeHelp("Mode home time (h) (<i>timeMode</i>)", "caHomeRTE"),
+                value = 24, min = 0.0, max = 150, step=0.5),
     sliderInput(ns("time_max_h"),
-                label = makeHelp("Max retail time (h) (<i>timeMax</i>)", "caHomeRTE"),
-                value = 120, min = 100, max = 150, step=2)
+                label = makeHelp("Max home time (h) (<i>timeMax</i>)", "caHomeRTE"),
+                value = 120, min = 0.0, max = 150, step=0.5)
 #    )
   )
 }

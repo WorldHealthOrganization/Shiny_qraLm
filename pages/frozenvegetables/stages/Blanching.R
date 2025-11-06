@@ -73,6 +73,7 @@ fv_Blanching_server <- function(input, output, session, suffix, datProd) {
 generate_datBlanch <- function(input, prefix, datProd) {
   if (isTRUE(getOption("myVerbose"))) print("reevaluate datBlanch")
   set.seed(get_input_value(input, prefix, "seed") + 123)
+  req(datProd())
   df <- fvBlanching(
     datProd(),
     tempBlanch  = get_input_value(input, prefix, "temp_blanch"),
@@ -91,10 +92,10 @@ fv_BlanchingInputs_ui <- function(id) {
     #  tagList(
     sliderInput(ns("temp_blanch"),
                 label = makeHelp("Temperature of blanching (ºC) (<i>tempBlanch</i>)", 'fvBlanching'),
-                value = 83.0, min = 70.0, max = 90.0, step=1.0),
+                value = 83.0, min = 70.0, max = 100.0, step=1.0),
     sliderInput(ns("time_blanch"),
                 label = makeHelp("Duration of blanching (min) (<i>timeBlanch</i>)", 'fvBlanching'),
-                value = 1.0, min = 0.3, max = 3.0, step=0.1)
+                value = 0.75, min = 0.0, max = 3.0, step=0.05)
     #     )
   )
 }

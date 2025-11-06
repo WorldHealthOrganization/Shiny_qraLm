@@ -28,6 +28,13 @@ sf_Home_server <- function(input, output, session, suffix, datColdchain, RTE) {
   
   # Define a reactive expression that updates and returns the data
   datHome <- eventReactive(input$updateSF, {
+    
+    is_valid <- checkPert(input, prefix, "temp_min_h", "temp_mode_h", "temp_max_h") &
+      checkPert(input, prefix, "time_min_h", "time_mode_h", "time_max_h")  
+    if (!is_valid) {
+      return(NULL)
+    }
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -75,6 +82,8 @@ sf_Home_server <- function(input, output, session, suffix, datColdchain, RTE) {
 
 generate_datHome <- function(input, prefix, datColdchain, RTE) { 
   set.seed(get_input_value(input, prefix, "seed") + 65877)
+  
+  req(datColdchain(), RTE())
   
   df <- sfColdChain(
     datColdchain(),
@@ -135,28 +144,28 @@ sf_HomeInputs_ui <- function(id) {
     #  tagList(
     sliderInput(ns("temp_min_h"),     
                 label = makeHelp("Minimum storage temperature (ºC) (<i>tempMin</i>)", 'sfColdChain'),
-                value = 1.12, min = 0, max = 5, step=0.02),
+                value = 1.12, min = 0, max = 15, step=0.1),
     sliderInput(ns("temp_mode_h"),     
                 label = makeHelp("Mode storage temperature (ºC) (<i>tempMode</i>)", 'sfColdChain'),
-                value = 7, min = 0, max = 7, step=0.25),
+                value = 7, min = 0, max = 15, step=0.1),
     sliderInput(ns("temp_max_h"),     
                 label = makeHelp("Maximum storage temperature (ºC) (<i>tempMax</i>)", 'sfColdChain'),
-                value = 13, min = 5, max = 15, step=0.25),
+                value = 13, min = 5, max = 15, step=0.1),
     sliderInput(ns("time_min_h"),     
                 label = makeHelp("Minimum storage time (h) (<i>timeMin</i>)", 'sfColdChain'),
-                value = 17.5, min = 0, max = 20, step=0.5),
+                value = 17.5, min = 0, max = 1000, step=0.5),
     sliderInput(ns("time_mode_h"),     
                 label = makeHelp("Mode storage time (h) (<i>timeMode</i>)", 'sfColdChain'),
-                value = 70, min = 10, max = 100, step=2.0),
+                value = 70, min = 0, max = 1000, step=2.0),
     sliderInput(ns("time_max_h"),     
                 label = makeHelp("Maximum storage time (h) (<i>timeMax</i>)", 'sfColdChain'),
-                value = 840, min = 100, max = 1000, step=10),
+                value = 840, min = 0, max = 1000, step=10),
     selectInput(ns("Variability_h"),     
                 label = makeHelp("Variability for time and temperature (<i>variability</i>)", 'sfColdChain'),
                 choices = c("lot", "column", "portion"), selected=c("column")),
     sliderInput(ns("cor_time_temp_h"),     
                 label = makeHelp("Correlation time/temperature (<i>corTimeTemp</i>)", 'sfColdChain'),
-                value = -0.12, min = -1.0, max = 1.0, step=0.02)
+                value = -0.12, min = -0.99, max = 0.99, step=0.02)
     #  ) 
   )
 }

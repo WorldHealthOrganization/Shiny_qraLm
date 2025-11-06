@@ -25,6 +25,15 @@ ca_Production_server <- function(input, output, session, suffix) {
   
   # Define a reactive expression that updates and returns the data
   datCanta <- eventReactive(input$updateCA, {
+    
+    is_valid <- checkPert(input, prefix, "c_soil_log_min", "c_soil_log_mode", "c_soil_log_max") &
+      checkPert(input, prefix, "q_soil_min", "q_soil_mode", "q_soil_max")   &
+      checkPert(input, prefix, "c_irrig_log_min", "c_irrig_log_max", "c_irrig_log_max", type = "uniform")   &
+      checkPert(input, prefix, "p_water_gain_min", "p_water_gain_max", "p_water_gain_max", type="uniform") 
+    if (!is_valid) {
+      return(NULL)
+    }
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -112,7 +121,7 @@ generate_datCanta <- function(input, prefix, session) { #first stage, no input
     nLots        = get_input_value(input, prefix, "n_lots"),
     sizeLot      = get_input_value(input, prefix, "size_lot"),
     cantaWeight  = get_input_value(input, prefix, "canta_weight"),
-    pSoil        = get_input_value(input, prefix, "p_soil"),
+    pSoil        = pmax(pmin(get_input_value(input, prefix, "p_soil"),0.999),0.001),
     fManure      = get_input_value(input, prefix, "f_manure"),
     pManure      = get_input_value(input, prefix, "p_manure"),
     fIrrigRaining= get_input_value(input, prefix, "f_irrig_raining"),
@@ -152,34 +161,34 @@ ca_ProductionInputs_ui <- function(id) {
                    value = 1000,  min = 500, max = 1500, step = 100),
       sliderInput(ns("p_soil"),  
                   label = makeHelp("Prevalence of contamination of soil (<i>pSoil</i>)", "caPrimaryProduction"),
-                  value = 0.089, min = 0.0, max = 1.0, step = 0.01),
+                  value = 0.089, min = 0.01, max = 1.0, step = 0.01),
       sliderInput(ns("p_manure"),  
                   label = makeHelp("Proportion of fields using organic amendments (<i>pManure</i>)", "caPrimaryProduction"),
-                  value = 0.5, min = 0.0, max = 1.0, step = 0.10),
+                  value = 0.0, min = 0.0, max = 1.0, step = 0.10),
       sliderInput(ns("f_manure"),  
                   label = makeHelp("Odds-ratio estimate associated to organic amendment (<i>fManure</i>)", "caPrimaryProduction"), 
             value = 7, min = 0.0, max = 10.0, step = 1.0),
       sliderInput(ns("c_soil_log_min"),  
                   label = makeHelp("Minimum value variability of concentration (<i>cSoilLogMin</i>)", "caPrimaryProduction"),
-                  value = -1, min = -2, max = 2, step = 0.25),
+                  value = -1, min = -2, max = 3, step = 0.25),
       sliderInput(ns("c_soil_log_mode"),  
                   label = makeHelp("Mode value of the variability of concentration (<i>cSoilLogMode</i>)", "caPrimaryProduction"),
-                  value = 0.6, min = -1, max = 2, step = 0.25),
+                  value = 0.6, min = -2, max = 3, step = 0.25),
       sliderInput(ns("c_soil_log_max"),  
                   label = makeHelp("Maximum value of the variability of concentration (<i>cSoilLogMax</i>)", "caPrimaryProduction"),
-                  value = 1.48, min = -1, max = 3, step = 0.25),
+                  value = 1.48, min = -2, max = 3, step = 0.25),
       sliderInput(ns("q_soil_min"),  
                   label = makeHelp("Minimum value of the variability of quantity of soil deposited on cantaloupe (<i>qSoilMin</i>)", "caPrimaryProduction"),
-                  value = 0.05, min = 0, max = 3, step = 0.05),
+                  value = 0.05, min = 0, max = 10, step = 0.05),
       sliderInput(ns("q_soil_mode"),  
                   label = makeHelp("Mode value of the variability of quantity of soil deposited on cantaloupe (<i>qSoilMode</i>)", "caPrimaryProduction"),
-                  value = 0.5, min = 0, max = 3, step = 0.05),
+                  value = 0.5, min = 0, max = 10, step = 0.05),
       sliderInput(ns("q_soil_max"),  
                   label = makeHelp("Maximum value of the variability of quantity of soil deposited on cantaloupe (<i>qSoilMax</i>)", "caPrimaryProduction"),
                   value = 5, min = 0, max = 10, step = 0.05),
       sliderInput(ns("p_foil"),  
                   label = makeHelp("Proportion of fields grown in foil (e.g. plastic mulch) (<i>pFoil</i>)", "caPrimaryProduction"),
-                  value = 0.5, min = 0, max = 1, step = 0.1),      
+                  value = 1, min = 0, max = 1, step = 0.1),      
       sliderInput(ns("r_foil"),  
                   label = makeHelp("Reduction fraction of the quantity of soil transferred to rind (<i>rFoil</i>)", "caPrimaryProduction"),
                   value = 0.9, min = 0, max = 1, step = 0.1),
@@ -188,22 +197,22 @@ ca_ProductionInputs_ui <- function(id) {
                   value = 25, min = 0.0, max = 50, step = 1.0),
       sliderInput(ns("p_irrig_raining"),   
                   label = makeHelp("Proportion of fields irrigated or raining just previous harvest (<i>pIrrigRaining</i>)", "caPrimaryProduction"),
-                  value = 0.1, min = 0.0, max = 1, step = 0.1),
+                  value = 0, min = 0.0, max = 1, step = 0.1),
       sliderInput(ns("p_irrig"),  
                   label = makeHelp("Prevalence of contamination in irrigation water (<i>pIrrig</i>)", "caPrimaryProduction"),
-                  value = 0.131, min = 0, max = 1, step = 0.1),
+                  value = 0, min = 0, max = 1, step = 0.1),
       sliderInput(ns("c_irrig_log_min"),  
                   label = makeHelp("Minimum value of the uniform distribution (<i>cIrrigLogMin</i>)", "caPrimaryProduction"),
-                  value = -0.152, min = -1, max = 1, step = 0.1),
+                  value = -1.52, min = -2, max = 2, step = 0.1),
       sliderInput(ns("c_irrig_log_max"),  
                   label = makeHelp("Maximum value of the uniform distribution (<i>cIrrigLogMax</i>)", "caPrimaryProduction"),
-                  value = 1.04, min = -1, max = 2, step = 0.1),
+                  value = 1.04, min = -2, max = 2, step = 0.1),
       sliderInput(ns("p_water_gain_min"),  
                   label = makeHelp("Minimum value of the fraction of water gain (ml) (<i>pWaterGainMin</i>)", "caPrimaryProduction"),
-                  value = 0, min = 0, max = 0.25, step = 0.01),
+                  value = 0, min = 0, max = 0.5, step = 0.001),
       sliderInput(ns("p_water_gain_max"),  
                   label = makeHelp("Maximum value of the fraction of water gain (ml) (<i>pWaterGainMax</i>)", "caPrimaryProduction"),
-                  value = 0.004, min = 0, max = 0.5, step = 0.01)
+                  value = 0.004, min = 0, max = 0.5, step = 0.001)
 #      )  
   )   
 }

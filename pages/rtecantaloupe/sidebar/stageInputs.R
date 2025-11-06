@@ -60,13 +60,13 @@ ca_stageInputs_ui <- function(id) {
       ),
       shinyjs::hidden(  
         div(
-          id = ns("RTEStorage"), 
+          id = ns("Storage"), 
           ca_RTEStorageInputs_ui(id)
         )
       ),
       shinyjs::hidden(  
         div(
-          id = ns("ConsumersTransport"), 
+          id = ns("Consumers Transport"), 
           ca_ConsumersTransportInputs_ui(id)
         )
       ),

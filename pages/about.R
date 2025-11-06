@@ -40,16 +40,16 @@ aboutProjectContent <- function() {
                 tags$ul(
                   class = "spaced-paragraph",
                   tags$li(
-                    strong("RTE Cantaloupe:"), 
-                    " The model for RTE cantaloupe includes stages from pre-harvesting, harvesting, cleaning, and washing to processing, cold-chain storage, and consumer handling."
-                  ),
-                  tags$li(
                     strong("Frozen Vegetables:"), 
                     " This model focuses on processing beginning at the freezing facility, with the assumption that incoming vegetables have already been preconditioned (e.g., trimmed, peeled, washed). The model includes blanching, potential cross-contamination during freezing and packaging, and consumer handling activities such as defrosting and cooking."
                   ),
                   tags$li(
-                    strong("RTE Cold-Smoked Salmon:"), 
-                    " The model targets RTE cold-smoked salmon produced via brining, followed by smoking, slicing, and packing. It also accounts for cold-chain storage and consumer handling."
+                    strong("RTE Cold-Smoked Fish:"), 
+                    " The model targets RTE cold-smoked fish produced via brining, followed by smoking, slicing, and packing. It also accounts for cold-chain storage and consumer handling."
+                  ),
+                  tags$li(
+                    strong("RTE Cantaloupe:"), 
+                    " The model for RTE cantaloupe includes stages from pre-harvesting, harvesting, cleaning, and washing to processing, cold-chain storage, and consumer handling."
                   )
                 ),
                 p(class = "spaced-paragraph",

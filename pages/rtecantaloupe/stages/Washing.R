@@ -27,6 +27,12 @@ ca_Washing_server <- function(input, output, session, suffix, datStoring) {
   
   # Define a reactive expression that updates and returns the data
   datWashing <- eventReactive(input$updateCA, {
+    
+    is_valid <- checkPert(input, prefix, "log_water_min", "log_water_mode", "log_water_max")
+    if (!is_valid) {
+      return(NULL)
+    }
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -73,6 +79,7 @@ ca_Washing_server <- function(input, output, session, suffix, datStoring) {
 
 generate_datWashing <- function(input, prefix, datStoring) {
   set.seed(get_input_value(input, prefix, "seed") + 240974)
+  req(datStoring())
   df <- caFlumeTankCC(
     datStoring(),
     probCCW      = get_input_value(input, prefix, "prob_ccw"),
@@ -93,21 +100,22 @@ ca_WashingInputs_ui <- function(id) {
     sliderInput(ns("prob_ccw"),
                 label = makeHelp("Probability that water of flume tank is contaminated (<i>probCCW</i>)", "caFlumeTankCC"),
                 value = 0, min = 0, max = 1, step=0.1),
+# Note: need to limit the max to avoid a bug in multinomial
     sliderInput(ns("log_water_min"),
-                label = makeHelp("Minimal concentration of LM in water of flume tank (<i>logWaterMin</i>)", "caFlumeTankCC"),
-                value = 1, min = 0, max = 2, step=0.25),
+                label = makeHelp("Minimal concentration of LM in water of flume tank (log10(CFU/l))(<i>logWaterMin</i>)", "caFlumeTankCC"),
+                value = 1, min = 0, max = 7, step=0.25),
     sliderInput(ns("log_water_mode"),
-                label = makeHelp("Mode concentration of LM in water of flume tank (<i>logWaterMode</i>)", "caFlumeTankCC"),
-                value = 1, min = 0, max = 2, step=0.25),
+                label = makeHelp("Mode concentration of LM in water of flume tank (log10(CFU/l))(<i>logWaterMode</i>)", "caFlumeTankCC"),
+                value = 1, min = 0, max = 7, step=0.25),
     sliderInput(ns("log_water_max"),
-                label = makeHelp("Maximum concentration of LM in water of flume tank (<i>logWaterMax</i>)", "caFlumeTankCC"),
-                value = 5, min = 2, max = 10, step=0.25),
+                label = makeHelp("Maximum concentration of LM in water of flume tank (log10(CFU/l))(<i>logWaterMax</i>)", "caFlumeTankCC"),
+                value = 5, min = 0, max = 7, step=0.25),
     sliderInput(ns("p_water_gain"),
                 label = makeHelp("Fraction of water gain (ml) relative to the cantaloupe weight (g) (<i>pWaterGain</i>)", "caFlumeTankCC"),
                 value = 0.004, min = 0.0, max = 0.009, step=0.001),
     sliderInput(ns("b_water"),
                 label = makeHelp("Dispersion factor - clustering of cells during washing (<i>bWater</i>)", "caFlumeTankCC"),
-                value = 1, min = 0, max = 2, step=0.2)
+                value = 1, min = 0.1, max = 3, step = 0.1)
 #    )
    )
 }

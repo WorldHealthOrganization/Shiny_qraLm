@@ -74,6 +74,7 @@ fv_Portioning_server <- function(input, output, session, suffix, datTest) {
 generate_datPortfv <- function(input, prefix, datTest) {
   if (isTRUE(getOption("myVerbose"))) print("reevaluate datPortfv")
   set.seed(get_input_value(input, prefix, "seed") + 369)
+  req(datTest())
   df <- fvPortioning(
     datTest(),
     servingSize = get_input_value(input, prefix, "serving_size_port"),
@@ -91,8 +92,8 @@ fv_PortioningInputs_ui <- function(id) {
                 label = makeHelp("Weight portion taken from a pack (g) (<i>servingSize</i>)", 'fvPortioning'),
                 value=50, min=25, max=500, step=25),
     sliderInput(ns("b_port"), 
-                label = makeHelp("Dispersion in the pack: (<i>bPort</i>)", 'fvPortioning'),
-                value=1, min=0, max=3, step=0.05) 
+                label = makeHelp("Dispersion in the pack (<i>bPort</i>)", 'fvPortioning'),
+                value = 1, min = 0.1, max = 3, step = 0.1)
     #    )
   )
 }

@@ -73,6 +73,7 @@ ca_Brushing_server <- function(input, output, session, suffix, datHarvest) {
 
 generate_datBrush <- function(input, prefix, datHarvest) {
   set.seed(get_input_value(input, prefix, "seed") + 456)
+  req(datHarvest())
   df <- caBrush(
     datHarvest(),
     logDecBrush  = get_input_value(input, prefix, "log_dec_brush")
@@ -87,7 +88,7 @@ ca_BrushingInputs_ui <- function(id) {
 #  tagList(
     sliderInput(ns("log_dec_brush"),
                 label = makeHelp("Mean log10 reduction attained by brushing (<i>logDecBrush</i>)", "caBrush"),
-                value = 0, min = 0, max = 3, step=1)
+                value = 0, min = 0, max = 3, step=.05)
 #  )
   )
 }

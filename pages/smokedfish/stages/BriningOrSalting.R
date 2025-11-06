@@ -19,13 +19,21 @@ sf_BriningOrSalting_ui <- function(id) {
 
 sf_BriningOrSalting_server <- function(input, output, session, suffix, datHold) {
   ns <- NS(suffix)
-  id <- ns("BriningOrSalting")
+  id <- ns("Brining Or Salting")
   
   prefix <- "smokedfish-sidebar-inputs-"
   values <- reactiveValues(data = NULL)
   
   # Define a reactive expression that updates and returns the data
   datBrineSalt <- eventReactive(input$updateSF, {
+    
+    is_valid <- checkPert(input, prefix, "vol_inj_min", "vol_inj_mode", "vol_inj_max") &
+      checkPert(input, prefix, "conc_brine_min", "conc_brine_mode", "conc_brine_max")  
+    if (!is_valid) {
+      return(NULL)
+    }
+    
+    
     # Generate data and store it in reactive values if NULL
     if (is.null(values$data)) {
       progress <- shiny::Progress$new()
@@ -73,7 +81,7 @@ sf_BriningOrSalting_server <- function(input, output, session, suffix, datHold) 
 
 generate_datBrineSalt <- function(input, prefix, datHold) {
   set.seed(get_input_value(input, prefix, "seed") + 936)
-  
+  req(datHold())
   df <- sfBrineORsaltCC(datHold(),
                         pBrine         = get_input_value(input, prefix, "p_brine"),
                         pccBrine       = get_input_value(input, prefix, "pcc_brine"),
@@ -94,38 +102,38 @@ generate_datBrineSalt <- function(input, prefix, datHold) {
 sf_BriningOrSaltingInputs_ui <- function(id) {  
   ns <- NS(id)  
   div(  
-    id = ns("BriningOrSalting"),   
+    id = ns("Brining Or Salting"),   
     #    tagList(  
     sliderInput(ns("p_brine"), 
                 label = makeHelp("Prob. that a lot is salted by brining (<i>pBrine</i>)", 'sfBrineORsaltCC'),
                 value = 1, min = 0, max = 1, step = 0.05),
     sliderInput(ns("pcc_brine"), 
                 label = makeHelp("Prob. that the brine is contaminated with LM (<i>pccBrine</i>)", 'sfBrineORsaltCC'),
-                value = 0.135, min = 0, max = 1, step = 0.005),
+                value = 5/37, min = 0, max = 1, step = 0.005),
     sliderInput(ns("vol_inj_min"), 
                 label = makeHelp("Minimum volume of brine (ml) (<i>volInjMin</i>)", 'sfBrineORsaltCC'),
-                value = 25, min = 1, max = 30, step = 1),
+                value = 25, min = 1, max = 150, step = 1),
     sliderInput(ns("vol_inj_mode"), 
                 label = makeHelp("Mode of the volume of brine (ml) (<i>volInjMode</i>)", 'sfBrineORsaltCC'),
-                value = 35, min = 15, max = 50, step = 5),
+                value = 35, min = 1, max = 150, step = 5),
     sliderInput(ns("vol_inj_max"), 
                 label = makeHelp("Maximum volume of brine (ml) (<i>volInjMax</i>)", 'sfBrineORsaltCC'),
-                value = 100, min = 50, max = 150, step = 10),
+                value = 100, min = 1, max = 150, step = 10),
     sliderInput(ns("conc_brine_min"), 
                 label = makeHelp("Minimum concentration of LM in brine (CFU/ml) (<i>concBrineMin</i>)", 'sfBrineORsaltCC'),
-                value = 0, min = 0, max = 5, step = 0.01),
+                value = 0, min = 0.0, max = 20, step = 0.01),
     sliderInput(ns("conc_brine_mode"),
                 label = makeHelp("Mode of concentration of LM in brine (CFU/ml) (<i>concBrineMode</i>)", 'sfBrineORsaltCC'),
-                value = 0.015, min = 0.0, max = 10, step = 0.005),
+                value = 0.015, min = 0.0, max = 20, step = 0.01),
     sliderInput(ns("conc_brine_max"),
                 label = makeHelp("Maximum concentration of LM in brine (CFU/ml) (<i>concBrineMax</i>)", 'sfBrineORsaltCC'),
-                value = 0.060, min = 0.05, max = 20, step = 0.05),
+                value = 0.060, min = 0.0, max = 20, step = 0.01),
     sliderInput(ns("pcc_smearing"), 
                 label = makeHelp("Probability of cross-contamination (<i>pccSmearing</i>)", 'sfBrineORsaltCC'),
                 value = 0.03, min = 0.0, max = 1, step = 0.01),
     sliderInput(ns("n_surface"), 
                 label = makeHelp("Numbers of LM on surfaces in contact with a fillet (CFU) (<i>nSurface</i>)", 'sfBrineORsaltCC'),
-                value = 10, min = 10, max = 1000, step = 10)
+                value = 9, min = 0, max = 1000, step = 1)
     #    )  
   )
 }

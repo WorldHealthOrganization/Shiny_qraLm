@@ -30,7 +30,7 @@ sf_stageInputs_ui <- function(id) {
       ),  
       shinyjs::hidden(  
         div(
-          id = ns("BriningOrSalting"), 
+          id = ns("Brining Or Salting"), 
           sf_BriningOrSaltingInputs_ui(id)
         )
       ),  
@@ -55,6 +55,13 @@ sf_stageInputs_ui <- function(id) {
       
       shinyjs::hidden(  
         div(
+          id = ns("Testing"), 
+          sf_TestingInputs_ui(id)
+        )
+      ),
+      
+      shinyjs::hidden(  
+        div(
           id = ns("Characteristics"), 
           sf_CharacteristicsInputs_ui(id)
         )
@@ -62,7 +69,7 @@ sf_stageInputs_ui <- function(id) {
       
       shinyjs::hidden(  
         div(
-          id = ns("ColdChain"), 
+          id = ns("Cold Chain"), 
           sf_ColdChainInputs_ui(id)
         )
       ),  
