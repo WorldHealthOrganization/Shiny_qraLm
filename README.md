@@ -140,6 +140,20 @@ Open your browser and go to `http://localhost:8000/`.
 - [Cold-Smoked Fish](https://doi.org/10.3390/foods13233831)
 - [RTE Cantaloupe](https://doi.org/10.3390/foods14132212)
 
+## Contributing
+
+- [Vasco Cadavez](https://orcid.org/0000-0002-3077-7414) 
+Served as the principal developer of the Shiny application, leading its design, implementation, and integration of model components into an interactive interface.
+
+- [Ursula Gonzales-Barron](https://orcid.org/0000-0002-8462-9775) 
+Contributed to both the conceptualization and development of the underlying models, as well as to the functional design and refinement of the Shiny application.
+
+- [Régis Pouillot](https://orcid.org/0000-0002-6107-5212) 
+Participated in model development and provided detailed scientific and technical review of the application. Also contributed to updating and improving the application’s functionality in later stages.
+
+- [Laurent Guillier](https://orcid.org/0000-0002-7867-2937) model development and review of the application
+Contributed to the development of the modelling framework and provided expert review and feedback to enhance the robustness and usability of the application.
+
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE.md`
