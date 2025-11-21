@@ -132,7 +132,7 @@ Open your browser and go to `http://localhost:8000/`.
 - [Cold-Smoked Fish](https://doi.org/10.3390/foods13233831)
 - [RTE Cantaloupe](https://doi.org/10.3390/foods14132212)
 
-### Contributing
+## Contributing
 
 - [Vasco Cadavez](https://orcid.org/0000-0002-3077-7414) 
 Served as the principal developer of the Shiny application, leading its design, implementation, and integration of model components into an interactive interface.
