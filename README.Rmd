@@ -134,6 +134,12 @@ Open your browser and go to `http://localhost:8000/`.
 
 ## Contributing
 
+## License
+
+This project is licensed under the MIT License. See the `LICENSE.md` file for full details.
+
+## Acknowledgments
+
 - [Vasco Cadavez](https://orcid.org/0000-0002-3077-7414) 
 Served as the principal developer of the Shiny application, leading its design, implementation, and integration of model components into an interactive interface.
 
@@ -146,11 +152,6 @@ Participated in model development and provided detailed scientific and technical
 - [Laurent Guillier](https://orcid.org/0000-0002-7867-2937) model development and review of the application
 Contributed to the development of the modelling framework and provided expert review and feedback to enhance the robustness and usability of the application.
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE.md` file for full details.
-
-## Acknowledgments
 
 Special thanks to the FAO/WHO Expert Group for their valuable contributions to this project.
 
