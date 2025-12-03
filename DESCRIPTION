@@ -1,0 +1,35 @@
+Package: ShinyqraLm
+Title: WHO Risk Estimation Tool for Listeria monocytogenes in Foods
+Version: 0.0.1
+Authors@R: c(
+    person("Vasco", "Cadavez", email = "vcadavez@ipb.pt", role = c("aut", "cre")),
+    person("Ursula", "Gonzales-Barron", email = "ubarron@ipb.pt", role = "aut"),
+    person("Regis", "Pouillot", role = "aut", comment = "Régis Pouillot"),
+    person("Laurent", "Guillier", role = "aut")
+  )
+Description: Shiny application implementing FAO/WHO quantitative risk assessment
+    models for Listeria monocytogenes in multiple food commodities.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.2)
+Imports:
+    shiny,
+    shinyjs,
+    shinyWidgets,
+    DT,
+    ggplot2,
+    plotly,
+    doseresponsemodels,
+    qraLm,
+    markdown
+Suggests:
+    pkgdown,
+    rmarkdown,
+    testthat (>= 3.0.0)
+URL: https://github.com/WorldHealthOrganization/Shiny_qraLm,
+    https://worldhealthorganization.github.io/Shiny_qraLm/
+BugReports: https://github.com/WorldHealthOrganization/Shiny_qraLm/issues
+Config/testthat/edition: 3
