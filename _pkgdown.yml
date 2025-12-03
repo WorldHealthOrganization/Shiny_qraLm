@@ -1,0 +1,11 @@
+template:
+  bootstrap: 5
+url: https://worldhealthorganization.github.io/Shiny_qraLm
+logo: man/figures/logo.png
+navbar:
+  structure:
+    left:
+      - home
+      - reference
+      - articles
+      - news

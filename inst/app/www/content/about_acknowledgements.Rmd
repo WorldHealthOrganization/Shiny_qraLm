@@ -1,0 +1,60 @@
+---
+output:
+  md_document:
+    variant: gfm
+---
+
+# Project overview
+
+In response to a request by the Codex Committee on Food Hygiene (CCFH) at
+its fifty-second session, formal risk assessment models were developed by the 
+[Joint FAO/WHO Expert meeting on microbiological risk assessment (JEMRA) of
+*Listeria monocytogenes* in foods: Part 1 formal models 
+(FAO HQ, Rome, Italy: 24 – 28 October 2022)](https://www.who.int/publications/i/item/9789240074507).
+These models took into account the effects of agrifood practices, climate change, and the latent possibility of cross-contamination along the production chain for produce and seafood commodities.
+
+Quantitative risk assessment (QRA) models were commissioned by [WHO](https://openknowledge.fao.org/server/api/core/bitstreams/7be15013-c4a0-4fc3-9088-4db8a2fe6a43/content) to a team of risk modelers, who programmed them in open-source software according to the designed formal models and based upon an extensive literature review for data retrieval and JEMRA inputs.
+
+The relevant literature, derived from and supporting the development of the models incorporated in the tool, is available in the publicly accessible special issue Quantitative Risk Assessment of *Listeria monocytogenes* in Foods .
+
+QRA models developed were reviewed and used by Joint FAO/WHO Expert meeting on microbiological risk assessment of *Listeria monocytogenes* in foods: Part 2 risk assessment (WHO HQ, Geneva, Switzerland: 29 May - 2 June 2023) in order to provide scientific advice to CCFH.
+
+The application is built using the [qraLm](https://github.com/WorldHealthOrganization/qraLm) R package and was developed under the scope of the [Joint FAO/WHO Expert Meeting on Microbiological Risk Assessment](https://mail.google.com/mail/u/0/#search/edp/FMfcgzQcqHZXKpGnRXfQRmmrBpvbdZsz?projector=1&messagePartId=0.1). Full definitions of model parameters and explanations of functions can be found on the Function reference manual for the [`qraLm` package](https://github.com/WorldHealthOrganization/qraLm).
+
+For further information, visit the GitHub Repository:[https://github.com/WorldHealthOrganization/Shiny_qraLm](https://github.com/WorldHealthOrganization/Shiny_qraLm)
+
+# Acknowledgements
+
+This product was commissioned by the Department of Nutrition and Food
+Safety of the World Health Organization (WHO). Scientific and technical
+guidance was provided by:
+
+- Moez Sanaa, Department of Nutrition and Food Safety, WHO, Geneva,
+  Switzerland
+- Juliana De Oliveira Mota, Department of Nutrition and Food Safety,
+  WHO, Geneva, Switzerland
+- Akio Hasegawa, Department of Nutrition and Food Safety, WHO, Geneva,
+  Switzerland
+
+Contributions: 
+
+- Vasco Cadavez Served as the principal developer of the Shiny application, leading its design, implementation, and integration of model components into an interactive interface.
+
+- Ursula Gonzales-Barron Contributed to both the conceptualization and development of the underlying models, as well as to the functional design and refinement of the Shiny application.
+
+- Régis Pouillot Participated in model development and provided detailed scientific and technical review of the application. Also contributed to updating and improving the application’s functionality in later stages.
+
+- Laurent Guillier model development and review of the application Contributed to the development of the modelling framework and provided expert review and feedback to enhance the robustness and usability of the application.
+
+
+Special appreciation is extended to the members of the Joint FAO/WHO
+Expert Group who participated in the Joint FAO/WHO Expert Meetings on
+Microbiological Risk Assessment of *Listeria monocytogenes* in Foods
+(Part 1 & 2).
+
+## Conflicts of Interest
+
+A comprehensive conflicts-of-interest review was conducted for all
+contributors. No conflicts that could compromise the independence or
+impartiality of the tool’s development were identified during the
+project or subsequent expert reviews.
